@@ -1,0 +1,17 @@
+{
+    "name": "shalomsantos/phpdocker",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "shalomsantos",
+            "email": "shalomsantos@gmail.com"
+        }
+    ],
+    "require": {
+        "predis/predis": "^3.3"
+    }
+}

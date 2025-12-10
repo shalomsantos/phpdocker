@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    image: app-php:7.4
+    container_name: app-app
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - local-net
+    entrypoint: /bin/sh -c "composer install --no-dev --prefer-dist --ignore-platform-reqs --optimize-autoloader && php-fpm"
+
+  nginx:
+    image: nginx:1.25.4-alpine
+    container_name: app-nginx
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+    ports:
+      - "9000:80"
+    depends_on:
+      - app
+    networks:
+      - local-net
+
+  mysql:
+    image: mysql:8.3.0
+    container_name: app-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: user2417
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: user_normal
+      MYSQL_PASSWORD: normalPass
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    networks:
+      - local-net
+
+  redis:
+    image: redis:7.2.4-alpine
+    container_name: app-redis
+    networks:
+      - local-net
+
+networks:
+  local-net:
+    driver: bridge
