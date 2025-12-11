@@ -1,23 +1,33 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
+require_once dirname(__DIR__, 1) . '/vendor/autoload.php';
 
-echo "<h1>Projeto Shalom Online!</h1>";
+use App\Controllers\LoginController;
+use App\Controllers\UserController;
 
-// Teste de Conexão com Redis (Usando o nome do serviço 'redis')
-try {
-    $redis = new Redis();
-    $redis->connect('redis', 6379);
-    $redis->set('test_key', 'Conexão Redis OK!');
-    $redis_status = $redis->get('test_key');
-    echo "<p><strong>Status do Redis:</strong> $redis_status</p>";
-} catch (Exception $e) {
-    echo "<p style='color:red;'><strong>Erro Redis:</strong> Não foi possível conectar ao serviço 'redis'.</p>";
+// header('Content-type: application/json');
+// echo json_encode(['status' => 'teste', 'message' => 'Estou na index']);
+// exit;
+
+$controllerName = $_POST['controller'] ?? 'login';
+$action         = $_POST['action']     ?? 'index';
+
+switch (strtolower($controllerName)) {
+    case 'login':
+        $controller = new LoginController();
+        break;
+    case 'user':
+        $controller = new UserController();
+        break;
+    // outras controllers...
+    default:
+        header('Content-type: application/json');
+        echo json_encode(['status' => 'error', 'message' => 'Controller inválido']);
+        exit;
 }
 
-// Teste de Versão do PHP
-echo "<p><strong>Versão do PHP:</strong> " . phpversion() . "</p>";
-
-// Exemplo de uso do Autoload
-// $controller = new App\Controllers\HomeController();
-// $controller->index();
-?>
+if (method_exists($controller, $action)) {
+    $controller->$action();
+} else {
+    header('Content-type: application/json');
+    echo json_encode(['status' => 'error', 'message' => 'Action inválida']);
+}
