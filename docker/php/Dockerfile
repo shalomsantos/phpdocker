@@ -1,5 +1,4 @@
-# Versão específica do PHP FPM (Baseada no Debian Buster/Slim)
-FROM php:7.4.33-fpm-buster
+FROM php:8.2-fpm-bookworm
 
 # Variáveis de ambiente
 ENV DEBIAN_FRONTEND noninteractive
@@ -15,7 +14,7 @@ RUN apt-get update \
         libjpeg-dev \
         libonig-dev \
         libpq-dev \
-        # Dependências para libs do PHP
+    # Instalação das extensões
     && docker-php-ext-configure gd --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         pdo_mysql \
@@ -23,7 +22,7 @@ RUN apt-get update \
         gd \
         zip \
         opcache \
-    # Instalar as extensões Redis e Composer
+    # Instalar a extensão Redis (via PECL) e habilitá-la
     && pecl install redis \
     && docker-php-ext-enable redis \
     # Instalar Composer
@@ -32,13 +31,11 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Ajustar permissões e UID/GID
-# O UID/GID 1000 é comum em ambientes WSL/Linux.
-# Isso garante que os arquivos criados pelo PHP/Composer não fiquem com permissões estranhas.
+# Ajustar permissões e UID/GID; UID/GID 1000 é comum em ambientes WSL/Linux.
 ARG UID=1000
 ARG GID=1000
 
+# Adicionar 'usermod -u ${UID}' e 'groupmod -g ${GID}' como comando separado
 RUN usermod -u ${UID} www-data && groupmod -g ${GID} www-data
 
-# Definir o diretório de trabalho
 WORKDIR /var/www/html
