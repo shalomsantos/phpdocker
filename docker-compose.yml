@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    image: app-php:7.4
+    image: app-php:8.2-fpm-bookworm
     container_name: app-app
     volumes:
       - .:/var/www/html
