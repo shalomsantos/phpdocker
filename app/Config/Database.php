@@ -6,17 +6,22 @@ use PDOException;
 
 //classe conexão.
 class Database {
-    private static $dbhost = 'localhost';
-    private static $dbname = 'basicus';
-    private static $user = 'root';
-    private static $password = '';
     private static $pdoInstance = null;
+
     //função q retorna o objeto de conexão com banco.
     public static function getConnection(){
-        //se a instancia for vazia; criar nova conexão.
+        $dbhost = $_ENV['DB_HOST'];
+        $dbname = $_ENV['DB_DATABASE'];
+        $user = $_ENV['DB_USERNAME'];
+        $password = $_ENV['DB_PASSWORD'];
+
+        if (!$dbhost || !$dbname || !$user || !$password) {
+            throw new \Exception("Erro de Configuração: Credenciais do banco de dados ausentes no ambiente.");
+        }
+        
         if (empty(self::$pdoInstance)) {
             try {
-                self::$pdoInstance = new PDO("mysql:host=" . self::$dbhost . ";dbname=" . self::$dbname, self::$user, self::$password);
+                self::$pdoInstance = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $user, $password);
                 self::$pdoInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 header('Content-Type: application/json');

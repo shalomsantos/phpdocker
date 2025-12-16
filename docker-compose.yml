@@ -33,14 +33,13 @@ services:
   mysql:
     image: mysql:8.3.0
     container_name: app-mysql
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: user2417
       MYSQL_DATABASE: app_db
-      MYSQL_USER: user_normal
-      MYSQL_PASSWORD: normalPass
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
     networks:
       - local-net
 

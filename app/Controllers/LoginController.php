@@ -44,7 +44,7 @@ class LoginController
                     Helpers::jsonResponse(200, [
                         'success' => true,
                         'message' => 'Login bem sucedido!',
-                        'redirect' => '/CadUsuarioPhp/app/Views/home/home.php'
+                        'redirect' => '/phpdocker/views/home/home.php'
                     ]);
                 } else {
                     Helpers::jsonResponse(500, [
@@ -76,13 +76,13 @@ class LoginController
             Helpers::jsonResponse(200, [
                 'success' => true,
                 'message' => 'Logout realizado com sucesso!',
-                'redirect' => '/CadUsuarioPhp/app/Views/auth/login.php'
+                'redirect' => '/phpdocker/views/auth/login.php'
             ]);
         } catch (\Throwable $e) {
             Helpers::jsonResponse(500, [
                 'success' => false,
                 'message' => 'Erro ao tentar deslogar: ' . $e->getMessage(),
-                'redirect' => '/CadUsuarioPhp/app/Views/auth/login.php'
+                'redirect' => '/phpdocker/views/auth/login.php'
             ]);
         }
     }

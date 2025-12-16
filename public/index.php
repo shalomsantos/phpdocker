@@ -1,12 +1,9 @@
-<?php
+<?php 
 require_once dirname(__DIR__, 1) . '/vendor/autoload.php';
+require_once dirname(__DIR__, 1) . '/app/Config/bootstrap.php';
 
 use App\Controllers\LoginController;
 use App\Controllers\UserController;
-
-// header('Content-type: application/json');
-// echo json_encode(['status' => 'teste', 'message' => 'Estou na index']);
-// exit;
 
 $controllerName = $_POST['controller'] ?? 'login';
 $action         = $_POST['action']     ?? 'index';
