@@ -6,8 +6,8 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    image: app-php:8.2-fpm-bookworm
-    container_name: app-app
+    image: php:8.2-fpm-bookworm
+    container_name: app-php
     volumes:
       - .:/var/www/html
     depends_on:
