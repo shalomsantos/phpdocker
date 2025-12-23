@@ -1,9 +1,8 @@
+<?php $this->layout("templates/master"); ?>
 <?php
 session_start();
 
-define('BASE_URL', '/CadUsuarioPhp');
-
-if (!isset($_SESSION['user'])) header('Location: ' . BASE_URL . '/app/Views/auth/login.php');
+if (!isset($_SESSION['user'])) header('Location: /');
 
 $nomeCompleto = trim($_SESSION['user']['nome'] ?? '');
 $partes = explode(' ', $nomeCompleto);
@@ -13,8 +12,6 @@ if (count($partes) >= 2) {
 } else {
     $user = ucfirst($nomeCompleto ?: 'vazio');
 }
-
-include dirname(__DIR__, 1) . '/header.php';
 ?>
 
 <div class="row mx-0 panel rounded overflow-hidden">
@@ -146,7 +143,4 @@ include dirname(__DIR__, 1) . '/header.php';
         </form>
     </div>
 </div>
-
-<?php include dirname(__DIR__, 1) . '/footer.php'; ?>
-
-<script src="<?= BASE_URL ?>/public/js/home.js"></script>
+<script src="/js/home.js"></script>

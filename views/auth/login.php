@@ -1,10 +1,8 @@
+<?php $this->layout("templates/master"); ?>
 <?php
 session_start();
-// CadUsuarioPhp
 
-if (isset($_SESSION['user'])) header('Location: ./views/home/home.php');
-
-include dirname(__DIR__, 1).'/templates/header.php';
+if (isset($_SESSION['user'])) header('Location: /home');
 ?>
 
 <div class="row m-0 p-0 vw-100 bg-background">
@@ -31,6 +29,5 @@ include dirname(__DIR__, 1).'/templates/header.php';
         </div>
     </div>
 </div>
-<?php include dirname(__DIR__, 1).'/templates/footer.php';?>
 
 <script src="/js/login.js"></script>

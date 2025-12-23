@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     $.ajax({
         method: "POST",
-        url: "../index.php",
+        url: "/login",
         dataType: 'json',
         data: { 
             controller: "login",
@@ -51,11 +51,9 @@ $(document).ready(function () {
 
                     return;
                 }
-                
-                window.location.href = data.redirect;
             } catch (e) {
                 Toastify({
-                    text: "Houve um erro inesperado, contate a T.I.[1]",
+                    text: "[1] Houve um erro inesperado, contate a T.I.",
                     duration: 3000,
                     close: true,
                     gravity: "top",
@@ -73,7 +71,7 @@ $(document).ready(function () {
         error: function (err) {
             if(!err.responseJSON?.message){
                 Toastify({
-                    text: "Houve um erro inesperado, contate a T.I.[2]",
+                    text: "[2] Houve um erro inesperado, contate a T.I.",
                     duration: 6000,
                     close: true,
                     gravity: "top",

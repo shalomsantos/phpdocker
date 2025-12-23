@@ -166,6 +166,60 @@ $(document).ready(function () {
             });
         }
     });
+
+    $("#signOut").on("click", function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            method: "GET",
+            url: "/logout",
+            dataType: 'json',
+            success: function (data) {
+                try {
+                    if (!data.success) {
+                        Toastify({
+                            text: data.message,
+                            duration: 3000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            style: {
+                                background: "#DC3545",
+                            },
+                        }).showToast();
+                        return;
+                    }
+                } catch (e) {
+                    Toastify({
+                        text: e,
+                        duration: 3000,
+                        close: true,
+                        gravity: "top",
+                        position: "right",
+                        stopOnFocus: true,
+                        style: {
+                            background: "#DC3545",
+                        },
+                    }).showToast();
+                }
+            },
+            error: function (err) {
+                Toastify({
+                    text: err,
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#DC3545",
+                    },
+                }).showToast();
+            }
+        });
+    });
+
     function fetchUsers() {
         $.ajax({
             method: "POST",
@@ -210,7 +264,6 @@ $(document).ready(function () {
                 }
             }, error: function (err) {
                 console.log(err)
-                alert("Erro ao buscar usuários.");
             }
         });
     }

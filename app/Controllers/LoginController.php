@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Config\Database;
 use App\Helpers\Helpers;
+use App\Controllers\Controller;
 use PDO;
 use PDOException;
 
@@ -11,7 +12,7 @@ class LoginController
 {
     public function index()
     {
-        require dirname(__DIR__, 2).'/views/auth/login.php';
+        return Controller::view("auth/login");
     }
 
     public function auth()
@@ -41,11 +42,7 @@ class LoginController
                 if ($user['senha'] === $password) {
                     $_SESSION['user'] = $user;
 
-                    Helpers::jsonResponse(200, [
-                        'success' => true,
-                        'message' => 'Login bem sucedido!',
-                        'redirect' => '/phpdocker/views/home/home.php'
-                    ]);
+                    return Controller::view("home/home");
                 } else {
                     Helpers::jsonResponse(500, [
                         'success' => false,
@@ -73,16 +70,12 @@ class LoginController
             session_start();
             session_destroy();
             
-            Helpers::jsonResponse(200, [
-                'success' => true,
-                'message' => 'Logout realizado com sucesso!',
-                'redirect' => '/phpdocker/views/auth/login.php'
-            ]);
+            Controller::view("auth/login");
         } catch (\Throwable $e) {
             Helpers::jsonResponse(500, [
                 'success' => false,
                 'message' => 'Erro ao tentar deslogar: ' . $e->getMessage(),
-                'redirect' => '/phpdocker/views/auth/login.php'
+                'redirect' => '/'
             ]);
         }
     }

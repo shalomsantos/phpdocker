@@ -1,30 +1,21 @@
 <?php 
-require_once dirname(__DIR__, 1) . '/vendor/autoload.php';
-require_once dirname(__DIR__, 1) . '/app/Config/bootstrap.php';
+require dirname(__DIR__, 1) . "/vendor/autoload.php";
+require dirname(__DIR__, 1) . "/app/Config/bootstrap.php";
+require dirname(__DIR__, 1) . "/routes/route.php";
 
-use App\Controllers\LoginController;
-use App\Controllers\UserController;
+try {
+    $uri = parse_url($_SERVER["REQUEST_URI"])["path"];
+    $request = $_SERVER["REQUEST_METHOD"];
+    
+    if(!isset($routes[$request])){
+        throw new Exception("A rota {$routes[$request]} não existe.");
+    }
+    if(!array_key_exists($uri, $routes[$request])){
+        throw new Exception("A rota {$routes[$request]} não existe");
+    }
 
-$controllerName = $_POST['controller'] ?? 'login';
-$action         = $_POST['action']     ?? 'index';
-
-switch (strtolower($controllerName)) {
-    case 'login':
-        $controller = new LoginController();
-        break;
-    case 'user':
-        $controller = new UserController();
-        break;
-    // outras controllers...
-    default:
-        header('Content-type: application/json');
-        echo json_encode(['status' => 'error', 'message' => 'Controller inválido']);
-        exit;
-}
-
-if (method_exists($controller, $action)) {
-    $controller->$action();
-} else {
-    header('Content-type: application/json');
-    echo json_encode(['status' => 'error', 'message' => 'Action inválida']);
+    $controller = $routes[$request][$uri];
+    $controller();
+} catch (\Throwable $e) {
+    echo $e->getMessage();
 }
