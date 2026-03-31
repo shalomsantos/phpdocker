@@ -2,16 +2,29 @@
 
 namespace App\Controllers;
 
-use App\Config\Database;
-use App\Helpers\Helpers;
 use App\Controllers\Controller;
-use PDO;
-use PDOException;
+use App\Helpers\Helpers;
+use App\Models\Usuario;
+use App\Models\Position;
 
-class HomeController
+class HomeController extends Controller
 {
   public function index()
   {
-    return Controller::view("home/home");
+    $positions = Position::all();
+    $users = Usuario::all();
+
+    if (!$positions) {
+      Helpers::jsonResponse(200, [
+        'success' => true,
+        'message' => 'Nenhum usuário cadastrado.',
+        'data' => []
+      ]);
+      return;
+    }
+    return self::view("home/home", [
+      'positions' => $positions,
+      'users' => $users
+    ]);
   }
 }

@@ -1,22 +1,22 @@
 body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url("../img/backgroundf.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url("../img/backgroundf.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .panel{
-    width: 90%;
-    height: 90%;
-    background: rgba(255, 255, 255, 0.407);
-    backdrop-filter: blur(16.4px);
+  width: 90vw;
+  height: 90vh;
+  background: rgba(255, 255, 255, 0.407);
+  backdrop-filter: blur(16.4px);
 }
 .bg-end{
-    background: rgba(255, 255, 255, 0.407);
-    backdrop-filter: blur(16.4px);
+  background: rgba(255, 255, 255, 0.407);
+  backdrop-filter: blur(16.4px);
 }
 ul{
   display: flex;
@@ -25,11 +25,11 @@ ul{
   padding-left: 0 !important;
 }
 li{
-    display: flex;
-    /* justify-content: center; */
-    align-items: center;
-    padding: 1rem;
-    cursor: pointer;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
 }
 li:hover{
   background-color: rgba(0, 0, 0, 0.1);
@@ -50,15 +50,46 @@ a p{
   padding-left: 3.5rem;
 }
 .btn-normal{
-    background-color: #AAFF01 !important;
+  background-color: #AAFF01 !important;
 }
 .btn-normal:hover{
-    background-color: #E0FF95 !important;
+  background-color: #E0FF95 !important;
 }
 .btn-invert{
-    background-color: #E0FF95 !important;
+  background-color: #E0FF95 !important;
 }
 .btn-invert:hover{
-    background-color: #AAFF01 !important;
-    color: #1B2E35 !important;
+  background-color: #AAFF01 !important;
+  color: #1B2E35 !important;
+}
+.label-content{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(224, 224, 224, 0.664);
+}
+.main-content{
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.main-content {
+  --sb-track-color: #232e3333;
+  --sb-thumb-color: rgb(231, 231, 231);
+  --sb-size: 14px;
+}
+.main-content::-webkit-scrollbar {
+  width: var(--sb-size)
+}
+.main-content::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 2rem;
+}
+.main-content::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 2rem;
+}
+@supports not selector(::-webkit-scrollbar) {
+  .main-content {
+    scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color);
+  }
 }

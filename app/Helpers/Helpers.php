@@ -13,7 +13,7 @@ class Helpers
         header('Content-Type: application/json; charset=utf-8');
 
         // Garante saída limpa
-        ob_clean();
+        // ob_clean();
 
         // Imprime o JSON formatado e encerra a execução
         echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

@@ -24,10 +24,7 @@ $(document).ready(function () {
     $.ajax({
         method: "POST",
         url: "/login",
-        dataType: 'json',
         data: { 
-            controller: "login",
-            action: 'auth',
             email: email, 
             password: password 
         },
@@ -51,6 +48,7 @@ $(document).ready(function () {
 
                     return;
                 }
+                window.location.href = data.redirect;
             } catch (e) {
                 Toastify({
                     text: "[1] Houve um erro inesperado, contate a T.I.",
@@ -65,7 +63,6 @@ $(document).ready(function () {
                 }).showToast();
                 $("#email").val('');
                 $("#password").val('');
-                console.log(e);
             }
         },
         error: function (err) {

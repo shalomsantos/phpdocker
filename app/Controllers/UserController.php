@@ -61,22 +61,18 @@ class UserController
     {
         $pdoInstance = Database::getConnection();
 
-        $name     = $_POST['name']     ?? null;
-        $email    = $_POST['email']    ?? null;
-        $tel      = $_POST['tel']      ?? null;
-        $password = $_POST['password'] ?? null;
+        $name        = $_POST['nome']        ?? null;
+        $email       = $_POST['email']       ?? null;
+        $tel         = $_POST['telefone']    ?? null;
+        $password    = $_POST['senha']       ?? null;
+        $position_id = $_POST['position_id'] ?? null;
         
         $isValidated = !empty($name) && !empty($email) && !empty($password);
 
         if ($isValidated) {
             try {
-                $stmt = $pdoInstance->prepare('INSERT INTO usuario(nome, email, telefone, senha) VALUES(:nome, :email, :tel, :password)');
-                $stmt->execute(array(
-                    ':nome' => $name,
-                    ':email' => $email,
-                    ':tel' => $tel,
-                    ':password' => $password
-                ));
+                $sql = 'INSERT INTO usuario(nome, email, telefone, senha, position_id) VALUES(?, ?, ?, ?, ?)';
+                $pdoInstance->prepare($sql)->execute([$name, $email, $tel, $password, $position_id]);
                 Helpers::jsonResponse(200, [
                     'success' => true,
                     'message' => "Usuário cadastrado com sucesso!"

@@ -12,7 +12,37 @@ class LoginController
 {
     public function index()
     {
-        return Controller::view("auth/login");
+        Controller::view("auth/login");
+    }
+
+    public function allUsers()
+    {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("SELECT * FROM usuario");
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!$result) {
+                Helpers::jsonResponse(200, [
+                    'success' => true,
+                    'message' => 'Nenhum usuário cadastrado.',
+                    'data' => []
+                ]);
+                return;
+            }
+
+            Helpers::jsonResponse(200, [
+                'success' => true,
+                'data' => $result
+            ]);
+        } catch (\Throwable $e) {
+            Helpers::jsonResponse(500, [
+                'success' => false,
+                'message' => 'Erro no servidor',
+                'details' => $e->getMessage()
+            ]);
+        }
     }
 
     public function auth()
@@ -41,8 +71,10 @@ class LoginController
 
                 if ($user['senha'] === $password) {
                     $_SESSION['user'] = $user;
-
-                    return Controller::view("home/home");
+                        Helpers::jsonResponse(200, [
+                            'success' => true,
+                            'redirect' => '/home'
+                        ]);
                 } else {
                     Helpers::jsonResponse(500, [
                         'success' => false,
@@ -70,7 +102,10 @@ class LoginController
             session_start();
             session_destroy();
             
-            Controller::view("auth/login");
+            Helpers::jsonResponse(200, [
+                'success' => true,
+                'redirect' => '/'
+            ]);
         } catch (\Throwable $e) {
             Helpers::jsonResponse(500, [
                 'success' => false,
