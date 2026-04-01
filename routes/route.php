@@ -27,7 +27,7 @@ $routes = [
     "/users/all" => fn() => load("LoginController", "allUsers")
   ],
   "POST" => [
-    "/login"     => fn() => load("LoginController", "auth"),
+    "/login"     => fn() => load("LoginController", "login"),
     "/user"      => fn() => load("UserController", "store")
   ],
 ];

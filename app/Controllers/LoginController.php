@@ -4,14 +4,25 @@ namespace App\Controllers;
 
 use App\Config\Database;
 use App\Helpers\Helpers;
+use App\Models\Usuario;
 use App\Controllers\Controller;
 use PDO;
 use PDOException;
 
-class LoginController
+class LoginController extends Controller
 {
     public function index()
     {
+        if (isset($_COOKIE['auth_token'])) {
+            $authService = new \App\Services\AuthService();
+            $isValid = $authService->validateToken($_COOKIE['auth_token']);
+
+            if ($isValid) {
+                header("Location: /home");
+                exit;
+            }
+        }
+
         Controller::view("auth/login");
     }
 
@@ -45,6 +56,44 @@ class LoginController
         }
     }
 
+    public function login()
+    {
+        try {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $usuario = new Usuario();
+            $user = $usuario->findByEmail($email);
+
+            if ($user && isset($user->senha)) {
+
+                $senhaValida = password_verify($password, $user->senha) || $password === $user->senha;
+
+                if ($senhaValida) {
+                    $authService = new \App\Services\AuthService();
+                    $token = $authService->generateToken(['id' => $user->id, 'email' => $user->email]);
+
+                    setcookie('auth_token', $token, [
+                        'expires' => time() + 3600,
+                        'path' => '/',
+                        'httponly' => true,
+                        'samesite' => 'Lax',
+                    ]);
+
+                    return Helpers::jsonResponse(200, ['success' => true, 'redirect' => '/home']);
+                }
+            }
+
+            return Helpers::jsonResponse(401, ['success' => false, 'message' => 'E-mail ou senha incorretos.']);
+        } catch (\Throwable $e) {
+            return Helpers::jsonResponse(500, [
+                'success' => false,
+                'message' => 'Erro interno',
+                'details' => $e->getMessage()
+            ]);
+        }
+    }
+
     public function auth()
     {
         session_start();
@@ -71,10 +120,10 @@ class LoginController
 
                 if ($user['senha'] === $password) {
                     $_SESSION['user'] = $user;
-                        Helpers::jsonResponse(200, [
-                            'success' => true,
-                            'redirect' => '/home'
-                        ]);
+                    Helpers::jsonResponse(200, [
+                        'success' => true,
+                        'redirect' => '/home'
+                    ]);
                 } else {
                     Helpers::jsonResponse(500, [
                         'success' => false,
@@ -99,13 +148,9 @@ class LoginController
     public function logout()
     {
         try {
-            session_start();
-            session_destroy();
-            
-            Helpers::jsonResponse(200, [
-                'success' => true,
-                'redirect' => '/'
-            ]);
+            setcookie('auth_token', '', time() - 3600, '/');
+            header("Location: /");
+            exit;
         } catch (\Throwable $e) {
             Helpers::jsonResponse(500, [
                 'success' => false,

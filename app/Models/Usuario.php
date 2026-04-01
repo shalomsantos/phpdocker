@@ -12,6 +12,6 @@ class Usuario extends Model {
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE email = :email");
         $stmt->bindValue(':email', $email);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 }

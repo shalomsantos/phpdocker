@@ -115,7 +115,6 @@ $(document).ready(function () {
     //buttons
     const btnSubmit = $("#submit");
     const btnLimpar = $("#limpar");
-    const btnSignOut = $("#signOut");
     const btnReload = $("#reload");
     //inputs
     const inputName = $("#name");
@@ -182,58 +181,6 @@ $(document).ready(function () {
                 }
             });
         }
-    });
-    btnSignOut.on("click", function (e) {
-        e.preventDefault();
-
-        $.ajax({
-            method: "GET",
-            url: "/logout",
-            success: function (data) {
-                try {
-                    if (!data.success) {
-                        Toastify({
-                            text: data.message,
-                            duration: 3000,
-                            close: true,
-                            gravity: "top",
-                            position: "right",
-                            stopOnFocus: true,
-                            style: {
-                                background: "#DC3545",
-                            },
-                        }).showToast();
-                        return;
-                    }
-                    window.location.href = data.redirect;
-                } catch (e) {
-                    Toastify({
-                        text: e,
-                        duration: 3000,
-                        close: true,
-                        gravity: "top",
-                        position: "right",
-                        stopOnFocus: true,
-                        style: {
-                            background: "#DC3545",
-                        },
-                    }).showToast();
-                }
-            },
-            error: function (err) {
-                Toastify({
-                    text: err,
-                    duration: 3000,
-                    close: true,
-                    gravity: "top",
-                    position: "right",
-                    stopOnFocus: true,
-                    style: {
-                        background: "#DC3545",
-                    },
-                }).showToast();
-            }
-        });
     });
     btnReload.on('click', () =>{
         fetchUsers();

@@ -1,28 +1,24 @@
 <?php $this->layout("templates/master"); ?>
+
 <?php
-session_start();
-
-if (!isset($_SESSION['user'])) header('Location: /');
-
-$nomeCompleto = trim($_SESSION['user']['nome'] ?? '');
+$nomeCompleto = trim($user['nome'] ?? '');
 $partes = explode(' ', $nomeCompleto);
-
 $partes = array_filter($partes); 
 $partes = array_values($partes); 
 
 if (count($partes) >= 2) {
     $primeiraLetra = mb_substr($partes[0], 0, 1);
     $ultimaLetra = mb_substr(end($partes), 0, 1);
-    $user = strtoupper($primeiraLetra . $ultimaLetra);
+    $iniciais = strtoupper($primeiraLetra . $ultimaLetra);
 } else {
-    $user = strtoupper(mb_substr($nomeCompleto ?: 'V', 0, 1));
+    $iniciais = strtoupper(mb_substr($nomeCompleto ?: 'V', 0, 1));
 }
 ?>
 
 <div class="row mx-0 panel rounded overflow-hidden position-relative p-0 m-0">
     <div class="col-2 p-0 border-end">
         <div class="d-flex justify-content-center align-items-center rounded-circle text-bg-secondary mx-auto my-4" style="width: 3.5vw;height: 3.5vw;">
-            <p><?= $user ?? 'vazio' ?></p>
+            <p><?= $iniciais ?? 'vazio' ?></p>
         </div>
         <ul>
             <li>
@@ -49,8 +45,8 @@ if (count($partes) >= 2) {
                     <p>Users</p>
                 </a>
             </li>
-            <li id="signOut">
-                <a class="nav-link" href="#">
+            <li>
+                <a class="nav-link" href="/logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <p>Exit</p>
                 </a>

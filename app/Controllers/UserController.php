@@ -7,7 +7,7 @@ use App\Helpers\Helpers;
 use PDO;
 use PDOException;
 
-class UserController
+class UserController extends AuthorizedController
 {
     public function index()
     {
@@ -22,7 +22,6 @@ class UserController
             'data' => $fechUsuarios,
         ]);
     }
-
     public function show($id)
     {
         $pdoInstance = Database::getConnection();
@@ -56,7 +55,6 @@ class UserController
         }
 
     }
-
     public function store()
     {
         $pdoInstance = Database::getConnection();

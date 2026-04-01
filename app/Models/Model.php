@@ -5,7 +5,8 @@ namespace App\Models;
 use PDO;
 use App\Config\Database;
 
-abstract class Model extends Database{
+abstract class Model extends Database
+{
   protected $pdo;
   protected $table;
 
@@ -32,7 +33,7 @@ abstract class Model extends Database{
   {
     $table = static::getTable();
     $stmt = static::getDb()->prepare("SELECT * FROM {$table} WHERE id = :id");
-    $stmt->execute([$id]);
+    $stmt->execute(['id' => $id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 }

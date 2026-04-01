@@ -2,29 +2,29 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Controller;
 use App\Helpers\Helpers;
 use App\Models\Usuario;
 use App\Models\Position;
 
-class HomeController extends Controller
+class HomeController extends AuthorizedController
 {
   public function index()
   {
-    $positions = Position::all();
-    $users = Usuario::all();
-
-    if (!$positions) {
-      Helpers::jsonResponse(200, [
-        'success' => true,
-        'message' => 'Nenhum usuário cadastrado.',
-        'data' => []
+    try {
+      $positions = Position::all();
+      $users = Usuario::all();
+  
+      return self::view("home/home", [
+        'user' => (array) $this->user,
+        'positions' => $positions,
+        'users' => $users
       ]);
-      return;
+    } catch (\Throwable $e) {
+      Helpers::jsonResponse(500, [
+        'success' => false,
+        'message' => 'Erro na chamada da home principal',
+        'details' => $e->getMessage()
+      ]);
     }
-    return self::view("home/home", [
-      'positions' => $positions,
-      'users' => $users
-    ]);
   }
 }
