@@ -1,3 +1,12 @@
+$("#eyeToggle").on("click", function () {
+    let input = $("#password");
+    let type = input.attr("type") === "password" ? "text" : "password";
+    
+    input.attr("type", type);
+    
+    $(this).find("i").toggleClass("fa-eye fa-eye-slash");
+});
+
 $("#formLogin").on("submit", function (e) {
     e.preventDefault();
 
@@ -18,30 +27,47 @@ $("#formLogin").on("submit", function (e) {
         }).showToast();
         return;
     }
-    let uri = "/login";
-    let data = {
-        email: email,
-        password: password
-    };
 
     $.ajax({
         method: "POST",
-        url: uri,
+        url: "/login",
         dataType: "json",
-        data: data,
-        beforeSend: function () {
+        data: {
+            email: email,
+            password: password
+        }, beforeSend: () => {
             $("#entrar").prop("disabled", true);
-        },
-        success: function (data) {
+        }, success: function (data) {
             if (data.success) {
                 window.location.href = data.redirect;
             } else {
-                alert(data.message);
-                $("#entrar").prop("disabled", false);
+                console.log(data.message);
+                Toastify({
+                    text: data.message,
+                    duration: 3000,
+                    close: true,
+                    className: "info",
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#9ADA31",
+                    },
+                }).showToast();
             }
+        }, error: function (err) {
+            Toastify({
+                text: err.responseJSON.message,
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: "#DC3545" },
+            }).showToast();
+        }, complete: () => {
+            $("#entrar").prop("disabled", false);
+            $("#password").val("");
+            $("#password").focus();
         },
-        error: function (err) {
-            console.log(err);
-        }
     });
 });

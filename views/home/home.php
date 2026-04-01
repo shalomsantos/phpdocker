@@ -17,7 +17,7 @@ if (count($partes) >= 2) {
 
 <div class="row mx-0 panel rounded overflow-hidden position-relative p-0 m-0">
     <div class="col-2 p-0 border-end">
-        <div class="d-flex justify-content-center align-items-center rounded-circle text-bg-secondary mx-auto my-4" style="width: 3.5vw;height: 3.5vw;">
+        <div title="<?= $nomeCompleto ?>" class="d-flex justify-content-center align-items-center rounded-circle text-bg-secondary mx-auto my-4" style="width: 3.5vw;height: 3.5vw;">
             <p><?= $iniciais ?? 'vazio' ?></p>
         </div>
         <ul>
