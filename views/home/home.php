@@ -34,18 +34,6 @@ if (count($partes) >= 2) {
                 </a>
             </li>
             <li>
-                <a class="nav-link" href="#">
-                    <i class="fa-solid fa-sitemap"></i>
-                    <p>Options</p>
-                </a>
-            </li>
-            <li>
-                <a class="nav-link" href="#">
-                    <i class="fa-solid fa-users"></i>
-                    <p>Users</p>
-                </a>
-            </li>
-            <li>
                 <a class="nav-link" href="/logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <p>Exit</p>
@@ -54,17 +42,21 @@ if (count($partes) >= 2) {
         </ul>
     </div>
     <div class="col-10 main-content">
-        <div>
-            <label for="position">Selecione o Cargo:</label>
-            <select name="position_id" id="position" class="form-control">
-                <option value="">Selecione...</option>
-                <?php foreach ($positions as $pos): ?>
-                    <option value="<?= $pos['id'] ?>">
-                        <?= htmlspecialchars($pos['description']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            <button id="reload" class="btn btn-light btn-sm">Recarregar</button>
+        <div class="row">
+            <div class="col-3">
+                <label for="position">Selecione o Cargo:</label>
+                <select name="position_id" id="position" class="form-control">
+                    <option value="">Selecione...</option>
+                    <?php foreach ($positions as $pos): ?>
+                        <option value="<?= $pos['id'] ?>">
+                            <?= htmlspecialchars($pos['description']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-3 mt-auto">
+                <button id="reload" class="btn btn-light btn-sm"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+            </div>
         </div>
         <div class="d-flex overflow-hidden rounded mt-2">
             <div class="row m-0 p-0 w-100" id="user-list">
@@ -180,6 +172,4 @@ if (count($partes) >= 2) {
         </form>
     </div>
 </div>
-<script src="/js/home.js">
-
-</script>
+<script src="/js/home.js"></script>
