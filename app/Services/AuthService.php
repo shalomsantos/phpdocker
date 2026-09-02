@@ -14,7 +14,7 @@ class AuthService
 
     public function __construct()
     {
-        $this->key = $_ENV['JWT_KEY'] ?? null;
+        $this->key = $_ENV['JWT_SECRET'] ?? null;
         $this->algo = $_ENV['JWT_ALLOWED_ALGO'] ?? 'HS256';
     }
 

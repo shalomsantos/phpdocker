@@ -19,6 +19,7 @@ class HomeController extends AuthorizedController
         'positions' => $positions,
         'users' => $users
       ]);
+      
     } catch (\Throwable $e) {
       Helpers::jsonResponse(500, [
         'success' => false,
