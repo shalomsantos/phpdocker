@@ -5,14 +5,14 @@ namespace App\Models;
 use PDO;
 use App\Config\Database;
 
-abstract class Model extends Database
+abstract class Model
 {
-  protected $pdo;
+  protected PDO $pdo;
   protected $table;
 
-  public function __construct()
+  public function __construct(?PDO $pdo = null)
   {
-    $this->pdo = Database::getConnection();
+    $this->pdo = $pdo ?? Database::getConnection();
   }
   public static function getDb()
   {
