@@ -4,33 +4,27 @@ namespace App\Controllers;
 
 use App\Helpers\Helpers;
 use App\Models\Usuario;
-use App\Services\AuthService;
+use App\Services\JwtService;
 
 class AuthorizedController extends Controller
 {
-  protected $user;
+  protected array $user;
 
-  public function __construct()
+  function __construct()
   {
     $token = $this->getBearerToken();
 
-    if (!$token) {
-      $this->forbidden();
-    }
+    if (!$token) $this->forbidden();
 
-    $authService = new AuthService();
-    $decoded = $authService->validateToken($token);
+    $JwtService = new JwtService();
+    $decoded    = $JwtService->validateToken($token);
 
-    if (!$decoded || !isset($decoded->data->id)) {
-      $this->forbidden();
-    }
+    if (!$decoded || !isset($decoded->data->id)) $this->forbidden();
 
     $usuarioModel = new Usuario();
-    $userData = $usuarioModel->find($decoded->data->id);
+    $userData     = $usuarioModel->find($decoded->data->id);
 
-    if (!$userData) {
-      $this->forbidden();
-    }
+    if (!$userData) $this->forbidden();
 
     $this->user = $userData;
   }
@@ -39,12 +33,11 @@ class AuthorizedController extends Controller
   {
     $headers = getallheaders();
 
-    if (isset($headers['Authorization']) && preg_match('/Bearer\s(\S+)/', $headers['Authorization'], $matches)) {
+    if (isset($headers['Authorization']) && preg_match('/Bearer\s(\S+)/', $headers['Authorization'], $matches))
       return $matches[1];
-    }
-    if (isset($_COOKIE['auth_token'])) {
-      return $_COOKIE['auth_token'];
-    }
+    
+    if (isset($_COOKIE['auth_token'])) return $_COOKIE['auth_token'];
+    
     return null;
   }
 

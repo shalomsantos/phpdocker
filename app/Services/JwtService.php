@@ -3,22 +3,21 @@
 namespace App\Services;
 
 use App\Helpers\Helpers;
-use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-class AuthService
+class JwtService
 {
     private $key;
     private $algo;
 
-    public function __construct()
+    function __construct()
     {
         $this->key = $_ENV['JWT_SECRET'] ?? null;
         $this->algo = $_ENV['JWT_ALLOWED_ALGO'] ?? 'HS256';
     }
 
-    public function generateToken(array $userData)
+    function generateToken(array $userData)
     {
         $payload = [
             'iss' => 'seu-projeto-docker',  // Emissor
@@ -30,7 +29,7 @@ class AuthService
         return JWT::encode($payload, $this->key, $this->algo);
     }
 
-    public function validateToken($token)
+    function validateToken($token)
     {
         try {
             return JWT::decode($token, new Key($this->key, $this->algo));

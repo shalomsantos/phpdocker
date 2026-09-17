@@ -1,21 +1,29 @@
 <?php
 
+use App\Controllers\UserController;
+use App\Controllers\LoginController;
+use App\Services\UserService;
+use \App\Services\JwtService;
+
 function load(string $controller, string $action)
 {
   try {
     $controllerNamespace = "App\\Controllers\\{$controller}";
+
+    if(!class_exists($controllerNamespace)) throw new Exception("O controller {$controller} não existe.");
+    // Apos garantia que CONTROLLER, intancie o controller;
+    $controllerInstance = match ($controllerNamespace) {
+      UserController::class  => new UserController(new UserService()),
+      LoginController::class => new LoginController(new JwtService(), new UserService()),
+      default => new $controllerNamespace(),
+    };
   
-    if(!class_exists($controllerNamespace)){
-      throw new Exception("O controller {$controller} não existe.");
-    }
-    $controllerInstance = new $controllerNamespace();
-  
-    if(!method_exists($controllerInstance, $action)){
-      throw new Exception("O método {$action} não existe no controller {$controller}");
-    }
+    if(!method_exists($controllerInstance, $action)) throw new Exception("O método {$action} não existe no controller {$controller}");
+    // Apos garantia que a ACTION/FUNCTION existe, chame a função passando $_REQUEST;
     $controllerInstance->$action((object) $_REQUEST);
+  
   } catch (\Throwable $e) {
-    echo $e->getMessage();
+    throw new Exception($e->getMessage());
   }
 }
 
@@ -31,6 +39,3 @@ $routes = [
     "/user"      => fn() => load("UserController", "store")
   ],
 ];
-
-
-

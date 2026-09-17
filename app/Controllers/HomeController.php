@@ -8,18 +8,17 @@ use App\Models\Position;
 
 class HomeController extends AuthorizedController
 {
-  public function index()
+  function index()
   {
     try {
       $positions = Position::all();
-      $users = Usuario::all();
-  
+      $users     = Usuario::all();
+
       return self::view("home/home", [
-        'user' => (array) $this->user,
+        'user'      => (array) $this->user,
         'positions' => $positions,
-        'users' => $users
+        'users'     => $users
       ]);
-      
     } catch (\Throwable $e) {
       Helpers::jsonResponse(500, [
         'success' => false,

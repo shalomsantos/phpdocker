@@ -4,24 +4,30 @@ namespace App\Controllers;
 
 use App\Config\Database;
 use App\Helpers\Helpers;
+use App\Services\UserService;
 use PDO;
 use PDOException;
 
 class UserController extends AuthorizedController
 {
+    private UserService $userService;
+
+    function __construct(UserService $userService)
+    {
+        parent::__construct();
+
+        $this->userService = $userService;
+    }
     public function index()
     {
-        $pdoInstance = Database::getConnection();
         
-        $sql = $pdoInstance->prepare('SELECT * FROM usuario');
-        $sql->execute();
-        $fechUsuarios = $sql->fetchAll();
 
         Helpers::jsonResponse(200, [
             'success' => true,
-            'data' => $fechUsuarios,
+            'data' => $userService->all(),
         ]);
     }
+
     public function show($id)
     {
         $pdoInstance = Database::getConnection();
@@ -55,6 +61,7 @@ class UserController extends AuthorizedController
         }
 
     }
+    
     public function store()
     {
         $pdoInstance = Database::getConnection();
@@ -86,9 +93,9 @@ class UserController extends AuthorizedController
                 'success' => false,
                 'message' => "dados insuficientes para realizar cadastro!"
             ]);
-        }
-        
+        }   
     }
+
     public function destroy($id)
     {
         if (!isset($_POST['id'])) {
@@ -99,10 +106,9 @@ class UserController extends AuthorizedController
         }
 
         try {
-            $id = $_POST['id'];
+            $id          = $_POST['id'];
             $pdoInstance = Database::getConnection();
-    
-            $stmt = $pdoInstance->execute("DELETE FROM usuario WHERE id = :id");
+            $stmt        = $pdoInstance->execute("DELETE FROM usuario WHERE id = :id");
             $stmt->execute([
                 ':id' => $id
             ]);

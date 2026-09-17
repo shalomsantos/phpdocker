@@ -6,16 +6,26 @@ use App\Config\Database;
 use App\Helpers\Helpers;
 use App\Models\Usuario;
 use App\Controllers\Controller;
+use \App\Services\JwtService;
+use \App\Services\UserService;
 use PDO;
 use PDOException;
 
 class LoginController extends Controller
 {
-    public function index()
+    private JwtService $jwtService;
+    private UserService $userService;
+
+    function __construct(JwtService $jwtService, UserService $userService)
+    { 
+        $this->jwtService = $jwtService;
+        $this->userService = $userService;
+    }
+
+    function index()
     {
         if (isset($_COOKIE['auth_token'])) {
-            $authService = new \App\Services\AuthService();
-            $isValid = $authService->validateToken($_COOKIE['auth_token']);
+            $isValid = $this->JwtService->validateToken($_COOKIE['auth_token']);
 
             if ($isValid) {
                 header("Location: /home");
@@ -26,7 +36,7 @@ class LoginController extends Controller
         Controller::view("auth/login");
     }
 
-    public function allUsers()
+    function allUsers()
     {
         try {
             $pdo = Database::getConnection();
@@ -56,7 +66,7 @@ class LoginController extends Controller
         }
     }
 
-    public function login()
+    function login()
     {
         try {
             $email = $_POST['email'];
@@ -70,8 +80,7 @@ class LoginController extends Controller
                 $senhaValida = password_verify($password, $user->senha) || $password === $user->senha;
 
                 if ($senhaValida) {
-                    $authService = new \App\Services\AuthService();
-                    $token = $authService->generateToken(['id' => $user->id, 'email' => $user->email]);
+                    $token = $this->JwtService->generateToken(['id' => $user->id, 'email' => $user->email]);
 
                     setcookie('auth_token', $token, [
                         'expires' => time() + 3600,
@@ -94,17 +103,15 @@ class LoginController extends Controller
         }
     }
 
-    public function auth()
+    function auth()
     {
         session_start();
 
-        $pdo = Database::getConnection();
-
-        $email = trim($_POST['email'] ?? '');
+        $pdo      = Database::getConnection();
+        $email    = trim($_POST['email'] ?? '');
         $password = trim($_POST['password'] ?? '');
 
         if ($email === '' || $password === '') {
-
             Helpers::jsonResponse(500, [
                 'success' => false,
                 'message' => 'Preencha todos os campos!'
@@ -145,7 +152,7 @@ class LoginController extends Controller
         }
     }
 
-    public function logout()
+    function logout()
     {
         try {
             setcookie('auth_token', '', time() - 3600, '/');
@@ -153,8 +160,8 @@ class LoginController extends Controller
             exit;
         } catch (\Throwable $e) {
             Helpers::jsonResponse(500, [
-                'success' => false,
-                'message' => 'Erro ao tentar deslogar: ' . $e->getMessage(),
+                'success'  => false,
+                'message'  => 'Erro ao tentar deslogar: ' . $e->getMessage(),
                 'redirect' => '/'
             ]);
         }
