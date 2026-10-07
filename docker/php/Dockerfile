@@ -25,11 +25,12 @@ RUN apt-get update \
     # Instalar a extensão Redis (via PECL) e habilitá-la
     && pecl install redis \
     && docker-php-ext-enable redis \
-    # Instalar Composer
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     # Limpar o cache
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Instalar Composer a partir da imagem oficial
+COPY --from=composer/composer:2-bin /composer /usr/local/bin/composer
 
 # Ajustar permissões e UID/GID; UID/GID 1000 é comum em ambientes WSL/Linux.
 ARG UID=1000

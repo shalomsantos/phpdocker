@@ -30,12 +30,12 @@ function load(string $controller, string $action)
 $routes = [
   "GET" => [
     "/"          => fn() => load("LoginController", "index"),
-    "/home"      => fn() => load("HomeController", "index"),
+    "/home"      => fn() => load("HomeController",  "index"),
     "/logout"    => fn() => load("LoginController", "logout"),
     "/users/all" => fn() => load("LoginController", "allUsers")
   ],
   "POST" => [
     "/login"     => fn() => load("LoginController", "login"),
-    "/user"      => fn() => load("UserController", "store")
+    "/user"      => fn() => load("UserController",  "store")
   ],
 ];
