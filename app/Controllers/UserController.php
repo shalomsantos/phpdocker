@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Config\Database;
 use App\Helpers\Helpers;
 use App\Services\UserService;
-use PDO;
 use PDOException;
 
 class UserController extends AuthorizedController
@@ -18,50 +17,47 @@ class UserController extends AuthorizedController
 
         $this->userService = $userService;
     }
+
     public function index()
     {
-        
-
         Helpers::jsonResponse(200, [
             'success' => true,
-            'data' => $userService->all(),
+            'data' => $this->userService->all(),
         ]);
     }
 
-    public function show($id)
+    public function show(string $id): void
     {
-        $pdoInstance = Database::getConnection();
-
         $id = isset($_POST['id']) ?? null;
 
-        if($id){
-            try {
-                $stmt = $pdoInstance->prepare('SELECT * FROM usuario WHERE id = :id');
-                $stmt->execute([':id' => $id]);
-
-                if (($stmt) and ($stmt->rowCount() != 0)) {
-                    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                }
-
-                Helpers::jsonResponse(200, [
-                    'success' => true,
-                    'data' => $user,
-                ]);
-            } catch (\Throwable $e) {
-                Helpers::jsonResponse(500, [
-                    'success' => false,
-                    'message' => $e->getMessage(),
-                ]);
-            }
-        }else{
+        if (empty($id)) {
             Helpers::jsonResponse(500, [
                 'success' => false,
                 'message' => "ID do usuário não informado!",
             ]);
         }
+        try {
+            $user = $this->userService->find($id);
 
+            if ($user <= 0) {
+                Helpers::jsonResponse(404, [
+                    'success' => false,
+                    'message' => "Usuário não encontrado",
+                ]);
+            }
+
+            Helpers::jsonResponse(200, [
+                'success' => true,
+                'data' => $user,
+            ]);
+        } catch (\Throwable $e) {
+            Helpers::jsonResponse(500, [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
-    
+
     public function store()
     {
         $pdoInstance = Database::getConnection();
@@ -71,13 +67,15 @@ class UserController extends AuthorizedController
         $tel         = $_POST['telefone']    ?? null;
         $password    = $_POST['senha']       ?? null;
         $position_id = $_POST['position_id'] ?? null;
-        
+
         $isValidated = !empty($name) && !empty($email) && !empty($password);
 
         if ($isValidated) {
             try {
                 $sql = 'INSERT INTO usuario(nome, email, telefone, senha, position_id) VALUES(?, ?, ?, ?, ?)';
+
                 $pdoInstance->prepare($sql)->execute([$name, $email, $tel, $password, $position_id]);
+
                 Helpers::jsonResponse(200, [
                     'success' => true,
                     'message' => "Usuário cadastrado com sucesso!"
@@ -93,10 +91,10 @@ class UserController extends AuthorizedController
                 'success' => false,
                 'message' => "dados insuficientes para realizar cadastro!"
             ]);
-        }   
+        }
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
         if (!isset($_POST['id'])) {
             Helpers::jsonResponse(400, [

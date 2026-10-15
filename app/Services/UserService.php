@@ -1,14 +1,17 @@
 <?
 namespace App\Services;
 
-class UserService {
-    
+use App\Models\Usuario;
+
+class UserService
+{
     function all()
     {
-        $pdoInstance = Database::getConnection();
-        
-        $sql = $pdoInstance->prepare('SELECT * FROM usuario');
-        $sql->execute();
-        $fechUsuarios = $sql->fetchAll();
+        return Usuario::all();
+    }
+
+    function find(string $id)
+    {
+        return Usuario::find($id);
     }
 }
