@@ -7,8 +7,8 @@ use App\Config\Database;
 
 abstract class Model
 {
-    protected PDO $pdo;
-    protected string $table;
+  protected PDO $pdo;
+  protected string $table;
 
     public function __construct(?PDO $pdo = null)
     {

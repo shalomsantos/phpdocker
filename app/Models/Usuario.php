@@ -5,8 +5,7 @@ namespace App\Models;
 use App\Models\Model;
 use PDO;
 
-class Usuario extends Model
-{
+class Usuario extends Model {
     protected string $table = 'usuario';
 
     public static function findByEmail(string $email): array|false
