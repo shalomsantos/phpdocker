@@ -29,6 +29,7 @@
                     </div>
                     <a href="#">Esqueceu a senha?</a>
                     <button type="submit" id="entrar" class="btn btn-normal rounded-pill w-100 mt-3">Entrar</button>
+                    <a href="/abstract-factory" class="btn btn-secondary rounded-pill w-100 mt-2">Exemplo Abstract Factory</a>
                 </form>
             </div>
         </div>

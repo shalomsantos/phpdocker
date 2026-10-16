@@ -25,16 +25,19 @@ class LoginController extends Controller
 
     function validationExam()
     {
-        $cms_values = [
-            'ds_first_nam' => 'fulano', 
-            'ds_last_name' => 'de tal'
-        ];
-        
-        $dto = CmsUserMapper::toDto($cms_values);
+        require_once dirname(__DIR__, 1).'/Dto/AbstractFactory.php';
 
-        echo $dto->primeironome;
-        echo $dto->ultimonome;
-        echo $dto->nome();
+        // $cms_values = [
+        //     'ds_first_nam' => 'fulano', 
+        //     'ds_last_name' => 'de tal'
+        // ];
+        
+        // $dto = CmsUserMapper::toDto($cms_values);
+
+        // echo $dto->primeironome;
+        // echo $dto->ultimonome;
+        // echo $dto->nome();
+        $this->view("abstract-factory");
     }
 
     function index()
