@@ -8,6 +8,7 @@ use App\Models\Usuario;
 use App\Controllers\Controller;
 use \App\Services\JwtService;
 use \App\Services\UserService;
+use App\Mapper\CmsUserMapper;
 use PDO;
 use PDOException;
 
@@ -20,6 +21,20 @@ class LoginController extends Controller
     { 
         $this->jwtService = $jwtService;
         $this->userService = $userService;
+    }
+
+    function validationExam()
+    {
+        $cms_values = [
+            'ds_first_nam' => 'fulano', 
+            'ds_last_name' => 'de tal'
+        ];
+        
+        $dto = CmsUserMapper::toDto($cms_values);
+
+        echo $dto->primeironome;
+        echo $dto->ultimonome;
+        echo $dto->nome();
     }
 
     function index()

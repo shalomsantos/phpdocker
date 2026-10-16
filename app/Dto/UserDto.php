@@ -3,21 +3,18 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-use App\Exception\DadoInvalidoException;
-
 final readonly class UserDto
 {
     public function __construct(
-        public string $primeironome,
-        public ?string $ultimonome = null,
+        public string $primeironome = '',
+        public ?string $ultimonome  = '',
     ) {
-        if (trim($primeironome) === '') {
+        if (trim($primeironome) === '')
             echo 'primeironome', 'O nome é obrigatório.';
-        }
     }
 
     public function nome(): string
     {
-        return trim($this->primeironome . ' ' . ($this->ultimonome ?? ''));
+        return trim($this->primeironome . ' ' . ($this->ultimonome));
     }
 }

@@ -30,6 +30,7 @@ $routes = [
     "GET" => [
         "/"          => fn() => load("LoginController", "index"),
         "/home"      => fn() => load("HomeController", "index"),
+        "/teste"     => fn() => load("LoginController", "validationExam"),
         "/logout"    => fn() => load("LoginController", "logout"),
         "/users/all" => fn() => load("LoginController", "allUsers")
     ],

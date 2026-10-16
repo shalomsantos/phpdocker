@@ -9,11 +9,12 @@ final class CmsUserMapper
 {
     public static function toDto(array $row): UserDto
     {
-        $ultimo = isset($row['ds_last_name']) ? trim((string) $row['ds_last_name']) : null;
+        $primeiro = $row['ds_first_nam'] ?? null;
+        $ultimo   = $row['ds_last_name'] ?? null;
 
         return new UserDto(
-            primeironome: trim((string) ($row['ds_first_nam'] ?? '')),
-            ultimonome: $ultimo === '' ? null : $ultimo,
+            primeironome: $primeiro,
+            ultimonome: $ultimo,
         );
     }
 
