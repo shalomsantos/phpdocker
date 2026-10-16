@@ -51,36 +51,6 @@ class LoginController extends Controller
         $this->view("auth/login", ['usuario_table' => Usuario::getTable()]);
     }
 
-    function allUsers()
-    {
-        try {
-            $pdo = Database::getConnection();
-            $stmt = $pdo->prepare("SELECT * FROM usuario");
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if (!$result) {
-                Helpers::jsonResponse(200, [
-                    'success' => true,
-                    'message' => 'Nenhum usuário cadastrado.',
-                    'data' => []
-                ]);
-                return;
-            }
-
-            Helpers::jsonResponse(200, [
-                'success' => true,
-                'data' => $result
-            ]);
-        } catch (\Throwable $e) {
-            Helpers::jsonResponse(500, [
-                'success' => false,
-                'message' => 'Erro no servidor',
-                'details' => $e->getMessage()
-            ]);
-        }
-    }
-
     function login()
     {
         try {
