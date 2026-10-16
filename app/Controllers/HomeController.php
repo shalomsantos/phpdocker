@@ -15,7 +15,7 @@ class HomeController extends AuthorizedController
       $positions = Position::all();
       $users     = Usuario::all();
 
-      return self::view("home/home", [
+      return $this->view("home/home", [
         'user'      => (array) $this->user,
         'positions' => $positions,
         'users'     => $users
