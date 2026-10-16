@@ -25,7 +25,7 @@ class LoginController extends Controller
     function index()
     {
         if (isset($_COOKIE['auth_token'])) {
-            $isValid = $this->JwtService->validateToken($_COOKIE['auth_token']);
+            $isValid = $this->jwtService->validateToken($_COOKIE['auth_token']);
 
             if ($isValid) {
                 header("Location: /home");
@@ -33,7 +33,7 @@ class LoginController extends Controller
             }
         }
 
-        Controller::view("auth/login");
+        $this->view("auth/login", ['usuario_table' => Usuario::getTable()]);
     }
 
     function allUsers()
