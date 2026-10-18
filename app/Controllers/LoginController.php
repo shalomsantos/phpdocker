@@ -21,10 +21,11 @@ class LoginController extends Controller
         $this->jwtService = $jwtService;
         $this->userService = $userService;
     }
-    function teste()
+    function teste(object $request)
     {
-        $usuario = $this->userService->findByEmail('shalomsantos@gmail.com');
-        var_dump($usuario);
+        // $usuario = $this->userService->findByEmail('shalomsantos@gmail.com');
+        // var_dump($usuario);
+        echo $request->categoria;
     }
 
     function validationExam()
