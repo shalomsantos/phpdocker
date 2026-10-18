@@ -29,7 +29,7 @@ class UserService
         return $usuario;
     }
 
-    public function findByEmail(string $email): array|false
+    public function findByEmail(string $email): ?array
     {
         return $this->usuario->findByEmail($email);
     }

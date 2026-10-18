@@ -9,7 +9,7 @@ class Usuario extends Model
 {
     protected string $table = 'usuario';
 
-    public static function findByEmail(string $email): array|false
+    public static function findByEmail(string $email): ?array
     {
         $table = static::getTable();
 

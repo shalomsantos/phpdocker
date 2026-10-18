@@ -1,9 +1,10 @@
 <?php
 
-use App\Controllers\UserController;
-use App\Controllers\LoginController;
-use App\Services\UserService;
 use \App\Services\JwtService;
+use App\Controllers\LoginController;
+use App\Controllers\UserController;
+use App\Models\Usuario;
+use App\Services\UserService;
 
 function load(string $controller, string $action)
 {
@@ -13,8 +14,8 @@ function load(string $controller, string $action)
         if (!class_exists($controllerNamespace)) throw new Exception("O controller {$controller} não existe.");
         // Apos garantia que CONTROLLER, intancie o controller;
         $controllerInstance = match ($controllerNamespace) {
-            UserController::class  => new UserController(new UserService()),
-            LoginController::class => new LoginController(new JwtService(), new UserService()),
+            UserController::class  => new UserController(new UserService(new Usuario())),
+            LoginController::class => new LoginController(new JwtService(), new UserService(new Usuario())),
             default => new $controllerNamespace(),
         };
 
