@@ -68,7 +68,7 @@ class LoginController extends Controller
                 $senhaValida = password_verify($password, $user->senha) || $password === $user->senha;
 
                 if ($senhaValida) {
-                    $token = $this->JwtService->generateToken(['id' => $user->id, 'email' => $user->email]);
+                    $token = $this->jwtService->generateToken(['id' => $user->id, 'email' => $user->email]);
 
                     setcookie('auth_token', $token, [
                         'expires' => time() + 3600,
