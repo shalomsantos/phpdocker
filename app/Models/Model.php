@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use PDO;
 use App\Config\Database;
+use InvalidArgumentException;
+use PDO;
 
 abstract class Model
 {

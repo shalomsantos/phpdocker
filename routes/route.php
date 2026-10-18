@@ -28,13 +28,14 @@ function load(string $controller, string $action)
 
 $routes = [
     "GET" => [
-        "/"          => fn() => load("LoginController", "index"),
-        "/home"      => fn() => load("HomeController", "index"),
+        "/"                 => fn() => load("LoginController", "index"),
+        "/home"             => fn() => load("HomeController", "index"),
+        "/teste"            => fn() => load("LoginController", "teste"),
         "/abstract-factory" => fn() => load("LoginController", "validationExam"),
-        "/logout"    => fn() => load("LoginController", "logout"),
+        "/logout"           => fn() => load("LoginController", "logout"),
     ],
     "POST" => [
-        "/login"     => fn() => load("LoginController", "login"),
-        "/user"      => fn() => load("UserController", "store")
+        "/login"            => fn() => load("LoginController", "login"),
+        "/user"             => fn() => load("UserController", "store")
     ],
 ];

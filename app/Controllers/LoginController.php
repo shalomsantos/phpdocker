@@ -4,10 +4,9 @@ namespace App\Controllers;
 
 use App\Config\Database;
 use App\Helpers\Helpers;
-use App\Models\Usuario;
 use App\Controllers\Controller;
+use App\Services\UserService;
 use \App\Services\JwtService;
-use \App\Services\UserService;
 use App\Mapper\CmsUserMapper;
 use PDO;
 use PDOException;
@@ -21,6 +20,11 @@ class LoginController extends Controller
     { 
         $this->jwtService = $jwtService;
         $this->userService = $userService;
+    }
+    function teste()
+    {
+        $usuario = $this->userService->findByEmail('shalomsantos@gmail.com');
+        var_dump($usuario);
     }
 
     function validationExam()
@@ -51,24 +55,22 @@ class LoginController extends Controller
             }
         }
 
-        $this->view("auth/login", ['usuario_table' => Usuario::getTable()]);
+        $this->view("auth/login", ['usuario_table' => $this->userService->getTable()]);
     }
 
     function login()
     {
         try {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+            $email    = $_POST['email'] ?? null;
+            $password = $_POST['password'] ?? null;
+            $user     = $this->userService->findByEmail($email);
 
-            $usuario = new Usuario();
-            $user = $usuario->findByEmail($email);
+            if ($user && isset($user['senha'])) {
 
-            if ($user && isset($user->senha)) {
-
-                $senhaValida = password_verify($password, $user->senha) || $password === $user->senha;
+                $senhaValida = password_verify($password, $user['senha']) || $password === $user['senha'];
 
                 if ($senhaValida) {
-                    $token = $this->jwtService->generateToken(['id' => $user->id, 'email' => $user->email]);
+                    $token = $this->jwtService->generateToken(['id' => $user['id'], 'email' => $user['email']]);
 
                     setcookie('auth_token', $token, [
                         'expires' => time() + 3600,

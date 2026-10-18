@@ -8,14 +8,19 @@ use DomainException;
 
 class UserService
 {
+    public function __construct(
+        private Usuario $usuario
+    ) {
+    }
+
     public function all(): array
     {
-        return Usuario::all();
+        return $this->usuario->all();
     }
 
     public function find(int|string $id): array
     {
-        $usuario = Usuario::find($id);
+        $usuario = $this->usuario->find($id);
 
         if ($usuario === null) {
             throw new DomainException('Usuário não encontrado.');
@@ -26,13 +31,13 @@ class UserService
 
     public function findByEmail(string $email): array|false
     {
-        return Usuario::findByEmail($email);
+        return $this->usuario->findByEmail($email);
     }
 
     public function create(array $data): string
     {
-        $name = trim($data['nome'] ?? '');
-        $email = trim($data['email'] ?? '');
+        $name     = trim($data['nome'] ?? '');
+        $email    = trim($data['email'] ?? '');
         $password = $data['senha'] ?? '';
 
         if ($name === '' || $email === '' || $password === '') {
@@ -45,11 +50,11 @@ class UserService
             throw new InvalidArgumentException('E-mail inválido.');
         }
 
-        if (Usuario::emailExists($email)) {
+        if ($this->usuario->emailExists($email)) {
             throw new DomainException('E-mail já cadastrado.');
         }
 
-        return Usuario::create([
+        return $this->usuario->create([
             'nome' => $name,
             'email' => $email,
             'senha' => password_hash($password, PASSWORD_DEFAULT),
@@ -58,7 +63,7 @@ class UserService
 
     public function update(int|string $id, array $data): bool
     {
-        $usuario = Usuario::find($id);
+        $usuario = $this->usuario->find($id);
 
         if ($usuario === false) {
             throw new DomainException('Usuário não encontrado.');
@@ -87,7 +92,7 @@ class UserService
                 throw new InvalidArgumentException('E-mail inválido.');
             }
 
-            $existingUser = Usuario::findByEmail($updateData['email']);
+            $existingUser = $this->usuario->findByEmail($updateData['email']);
 
             if (
                 $existingUser !== false
@@ -103,7 +108,7 @@ class UserService
             );
         }
 
-        return Usuario::update($id, $updateData);
+        return $this->usuario->update($id, $updateData);
     }
 
     public function updatePassword(int|string $id, string $password): bool 
@@ -114,27 +119,27 @@ class UserService
             );
         }
 
-        if (Usuario::find($id) === false) {
+        if ($this->usuario->find($id) === false) {
             throw new DomainException('Usuário não encontrado.');
         }
 
-        return Usuario::update($id, [
+        return $this->usuario->update($id, [
             'senha' => password_hash($password, PASSWORD_DEFAULT),
         ]);
     }
 
     public function delete(int|string $id): bool
     {
-        if (Usuario::find($id) === false) {
+        if ($this->usuario->find($id) === false) {
             throw new DomainException('Usuário não encontrado.');
         }
 
-        return Usuario::delete($id);
+        return $this->usuario->delete($id);
     }
 
     public function authenticate(string $email, string $password): array|false 
     {
-        $usuario = Usuario::findByEmail($email);
+        $usuario = $this->usuario->findByEmail($email);
 
         if ($usuario === false || !password_verify($password, $usuario['senha'])) {
             return false;
@@ -143,5 +148,15 @@ class UserService
         unset($usuario['senha']);
 
         return $usuario;
+    }
+
+    public function emailExists(string $email): bool
+    {
+        return $this->usuario->emailExists($email);
+    }
+
+    public function getTable(): string
+    {
+        return $this->usuario->getTable();
     }
 }
