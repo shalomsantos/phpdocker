@@ -19,7 +19,9 @@ class Usuario extends Model
 
         $stmt->execute(['email' => $email]);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row === false ? null : $row;
     }
 
     public static function emailExists(string $email): bool
