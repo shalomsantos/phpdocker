@@ -1,3 +1,4 @@
+<?php /** @var string $title */ ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,9 +10,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <!-- FAVICON -->
-    <link rel="shortcut icon" href="/img/icon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon" />
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <title>.::PHP::.</title>
+    <title><?= $this->e(($_ENV['PROJECT_NAME']) . (!empty($title) ? ' - ' . $title : '')) ?></title>
 </head>
 <body>
 
