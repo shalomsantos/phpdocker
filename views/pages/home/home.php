@@ -1,4 +1,4 @@
-<?php $this->layout("templates/master", [
+<?php $this->layout("templates/layout-admin", [
     "title" => "Workspace"
 ]); ?>
 

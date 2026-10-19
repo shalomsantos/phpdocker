@@ -4,6 +4,13 @@ namespace App\Helpers;
 
 class Helpers
 {
+    /**
+     * Função global para responder um json com resposta HTTP adequada
+     * @param int $statusCode
+     * @param array $data
+     * 
+     * @return void json_encode
+     */
     public static function jsonResponse(int $statusCode = 200, array $data = []): void
     {
         // Define o código HTTP

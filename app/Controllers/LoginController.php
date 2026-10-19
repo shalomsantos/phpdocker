@@ -56,7 +56,7 @@ class LoginController extends Controller
             }
         }
 
-        $this->view("auth/login", ['usuario_table' => $this->userService->getTable()]);
+        $this->view("pages/auth/login", ['usuario_table' => $this->userService->getTable()]);
     }
 
     function login()
