@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <!-- FAVICON -->
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon" />
+    <?= $this->section("styles") ?>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <title><?= $this->e('PHP') . (!empty($title) ? ' - ' . $title : '') ?></title>
 </head>
@@ -21,6 +22,7 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript" src="/js/script.js"></script>
+  <?= $this->section("scripts") ?>
 </body>
 
 </html>
