@@ -34,6 +34,7 @@ $routes = [
         "/home"             => fn() => load("HomeController", "index"),
         "/abstract-factory" => fn() => load("LoginController", "validationExam"),
         "/logout"           => fn() => load("LoginController", "logout"),
+        "/users"            => fn() => load("UserController", "index")
     ],
     "POST" => [
         "/login"            => fn() => load("LoginController", "login"),

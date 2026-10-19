@@ -188,7 +188,7 @@ $(document).ready(function () {
     function fetchUsers() {
         $.ajax({
             method: "GET",
-            url: "/users/all",
+            url: "/users",
             dataType: "json",
             success: function (data) {
                 row.empty();
