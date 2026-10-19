@@ -2,104 +2,175 @@
     "title" => "Workspace"
 ]); ?>
 
-<?php
-$nomeCompleto = trim($user['nome'] ?? '');
-$partes = explode(' ', $nomeCompleto);
-$partes = array_filter($partes); 
-$partes = array_values($partes); 
+<?php $this->start("styles"); ?>
+<?php $this->stop(); ?>
 
-if (count($partes) >= 2) {
-    $primeiraLetra = mb_substr($partes[0], 0, 1);
-    $ultimaLetra = mb_substr(end($partes), 0, 1);
-    $iniciais = strtoupper($primeiraLetra . $ultimaLetra);
-} else {
-    $iniciais = strtoupper(mb_substr($nomeCompleto ?: 'V', 0, 1));
-}
-?>
+<div class="d-flex overflow-hidden min-vh-100">
+    <aside 
+        class="offcanvas-md offcanvas-start d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
+        tabindex="-1"
+        id="sidebarMira"
+        aria-labelledby="sidebarMiraLabel"
+        style="width: 260px;"
+    >
+        <a
+            href="/"
+            class="d-flex align-items-center text-white text-decoration-none"
+            id="sidebarMiraLabel"
+        >
+            <span class="fs-4 fw-semibold">Mira</span>
+        </a>
 
-<div class="row mx-0 panel rounded overflow-hidden position-relative p-0 m-0">
-    <div class="col-2 p-0 border-end">
-        <div title="<?= $nomeCompleto ?>" class="d-flex justify-content-center align-items-center rounded-circle text-bg-secondary mx-auto my-4" style="width: 3.5vw;height: 3.5vw;">
-            <p><?= $iniciais ?? 'vazio' ?></p>
+        <hr>
+
+        <nav class="nav nav-pills flex-column gap-1 mb-auto">
+            <a href="#" class="nav-link active" aria-current="page">
+                <i class="fa-solid fa-house me-2"></i>
+                Workspace
+            </a>
+
+            <a href="#user-list" class="nav-link text-white">
+                <i class="fa-solid fa-users me-2"></i>
+                Usuários
+            </a>
+
+            <a href="#position" class="nav-link text-white">
+                <i class="fa-solid fa-briefcase me-2"></i>
+                Cargos
+            </a>
+
+            <button
+                type="button"
+                class="nav-link text-white text-start"
+                data-bs-toggle="modal"
+                data-bs-target="#modalAdicionar"
+            >
+                <i class="fa-solid fa-plus me-2"></i>
+                Adicionar
+            </button>
+        </nav>
+
+        <hr>
+
+        <div class="d-flex align-items-center gap-2">
+            <div
+                class="rounded-circle bg-secondary d-flex align-items-center justify-content-center flex-shrink-0"
+                style="width: 42px; height: 42px;"
+                title="<?= $this->e($user['nome']); ?>"
+            >
+                <?= $this->e($user['iniciais']) ?>
+            </div>
+
+            <div class="text-truncate">
+                <span class="d-block fw-semibold text-truncate">
+                    <?= $this->e($user['nome'] ?? 'Usuário') ?>
+                </span>
+                <small class="text-white-50">Workspace</small>
+            </div>
         </div>
-        <ul>
-            <li>
-                <a class="nav-link" href="#">
-                    <i class="fa-solid fa-house"></i>
-                    <p>Home</p>
-                </a>
-            </li>
-            <li data-bs-toggle="modal" data-bs-target="#modalAdicionar">
-                <a class="nav-link" href="#">
-                    <i class="fa-solid fa-plus"></i>
-                    <p>Adicionar</p>
-                </a>
-            </li>
-            <li>
-                <a class="nav-link" href="/logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <p>Exit</p>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="col-10 main-content">
+
+        <hr>
+
+        <a href="/logout" class="nav-link text-white">
+            <i class="fa-solid fa-right-from-bracket me-2"></i>
+            Sair
+        </a>
+    </aside>
+
+    <main class="flex-grow-1 p-3 p-md-4 main-content">
+        <button
+            class="btn btn-dark d-md-none mb-3"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#sidebarMira"
+            aria-controls="sidebarMira"
+            aria-label="Abrir menu"
+        >
+            <i class="fa-solid fa-bars"></i>
+            Menu
+        </button>
+
         <div class="row">
-            <div class="col-3">
-                <label for="position">Selecione o Cargo:</label>
-                <select name="position_id" id="position" class="form-control">
+            <div class="col-12 col-md-4 col-lg-3">
+                <label for="position" class="form-label">
+                    Selecione o cargo:
+                </label>
+
+                <select name="position_id" id="position" class="form-select">
                     <option value="">Selecione...</option>
                     <?php foreach ($positions as $pos): ?>
-                        <option value="<?= $pos['id'] ?>">
-                            <?= htmlspecialchars($pos['description']) ?>
+                        <option value="<?= $this->e((string) $pos['id']) ?>">
+                            <?= $this->e($pos['description']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="col-3 mt-auto">
-                <button id="reload" class="btn btn-light btn-sm"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+
+            <div class="col-auto mt-auto">
+                <button id="reload" class="btn btn-light" type="button" aria-label="Atualizar">
+                    <i class="fa-solid fa-arrow-rotate-right"></i>
+                </button>
             </div>
         </div>
-        <div class="d-flex overflow-hidden rounded mt-2">
-            <div class="row m-0 p-0 w-100" id="user-list">
-                <?php foreach ($users as $key => $value): ?>
-                    <div class="col-4 m-0 p-0">
-                        <div class="card m-2">
-                            <div class="card-header d-flex align-items-center justify-content-between">
-                                <p><?= $value['nome'] ?></p>
-                                <button class="btn btn-light btn-sm btn-<?= $key ?>" onclick="onVisible(<?= $key ?>)"><i class="fa-solid fa-eye"></i></button>
+
+        <div class="row mt-3" id="user-list">
+            <?php foreach ($users as $key => $value): ?>
+                <div class="col-12 col-md-6 col-xl-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header d-flex align-items-center justify-content-between gap-2">
+                            <span class="text-truncate">
+                                <?= $this->e($value['nome'] ?? '') ?>
+                            </span>
+
+                            <button
+                                type="button"
+                                class="btn btn-light btn-sm btn-<?= (int) $key ?>"
+                                onclick="onVisible(<?= (int) $key ?>)"
+                                aria-label="Alternar visibilidade"
+                            >
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-body d-flex flex-column gap-3">
+                            <div>
+                                <small class="text-body-secondary">E-mail</small>
+                                <p class="mb-0 text-break">
+                                    <?= $this->e($value['email'] ?? '') ?>
+                                </p>
                             </div>
-                            <div class="card-body d-flex flex-column gap-2">
-                                <div class="label-content">
-                                    <p>E-mail:.</p>
-                                    <p class="text-body-secondary"><?= $value['email'] ?></p>
-                                </div>                                    
-                                <div class="label-content">
-                                    <p>Telefone:.</p>
-                                    <p class="text-body-secondary"><?= $value['telefone'] ?></p>
-                                </div>                    
-                                <div class="label-content">
-                                    <p>Senha:.</p>
-                                    <span class="span-senha-<?= $key ?> d-flex align-items-center">
-                                        <p class="text-body-secondary senha-show d-none mb-0"><?= $value['senha'] ?></p>
-                                        <i class="fa-solid fa-ellipsis senha-hide"></i>
-                                    </span>
-                                </div>                    
-                                <div class="label-content">
-                                    <p>Cargo:.</p>
-                                    <?php
-                                        $key = array_search($value['position_id'], array_column($positions, 'id'));
-                                        echo "<p class='text-body-secondary'>".(($key !== false) ? $positions[$key]['description'] : 'Não definido')."</p>";
-                                    ?>
-                                </div>
+
+                            <div>
+                                <small class="text-body-secondary">Telefone</small>
+                                <p class="mb-0">
+                                    <?= $this->e($value['telefone'] ?? '') ?>
+                                </p>
+                            </div>
+
+                            <div>
+                                <small class="text-body-secondary">Cargo</small>
+                                <?php
+                                $positionIndex = array_search(
+                                    $value['position_id'] ?? null,
+                                    array_column($positions, 'id')
+                                );
+                                ?>
+                                <p class="mb-0">
+                                    <?= $this->e(
+                                        $positionIndex !== false
+                                            ? $positions[$positionIndex]['description']
+                                            : 'Não definido'
+                                    ) ?>
+                                </p>
                             </div>
                         </div>
                     </div>
-                <?php endforeach ?>
-            </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    </main>
 </div>
+
 <!-- MODALS -->
 <div class="modal fade" id="modalAdicionar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 35vw;">
@@ -174,4 +245,6 @@ if (count($partes) >= 2) {
         </form>
     </div>
 </div>
-<script src="/js/home.js"></script>
+<?php $this->start("scripts"); ?>
+    <script src="/js/home.js"></script>
+<?php $this->stop(); ?>

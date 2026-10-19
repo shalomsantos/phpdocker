@@ -10,16 +10,16 @@
 <main class="form-signin w-100 m-auto">
     <form id="formLogin">
         <div class="form-floating">
-            <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
-            <label for="floatingInput">Email address</label>
+            <input type="email" class="form-control form-control-sm" name="email" id="email" placeholder="name@example.com">
+            <label for="floatingInput">Email</label>
         </div>
         <div class="form-floating input-group mb-3">
-            <input type="password" class="form-control mb-0" name="password" id="password" placeholder="Password">
+            <input type="password" class="form-control form-control-sm mb-0" name="password" id="password" placeholder="Password">
 
             <button class="input-group-text" id="eyeToggle" type="button">
                 <i class="fa-solid fa-eye"></i>
             </button>
-            <label for="floatingPassword">Password</label>
+            <label for="floatingPassword">Senha</label>
         </div>
 
         <button id="entrar" class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
