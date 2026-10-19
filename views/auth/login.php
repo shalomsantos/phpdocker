@@ -6,8 +6,14 @@
     "title" => "Login"
 ]); ?>
 
-<div class="row m-0 p-0 vw-100 bg-background">
+<?php $this->start("styles"); ?>
+    <link rel="stylesheet" href="/css/login.css">
+<?php $this->stop(); ?>
+
+<div class="row m-0 p-0 vw-100 bg-background"> 
     <div class="row col-6 m-0 p-0 rounded-5 position-absolute top-50 start-50 translate-middle overflow-hidden border border-2" style="height: 70vh;">
+        <?= $this->insert("components/login-panel") ?>
+
         <div class="col-6 d-flex align-items-center bg-white">
             <div class="w-75 mx-auto">
                 <img src="/img/icon-background.png" alt="" style="width: 100%;">
@@ -21,7 +27,6 @@
             <div class="w-75 mx-auto">
                 <form id="formLogin" class="p-3">
                     <p class="fs-3 fw-bold text-success text-opacity-75 font-inter">Log-in</p>
-                    <p class="fs-3 fw-bold text-success text-opacity-75 font-inter"><?= $usuario_table ?></p>
                     <input type="email" name="email" id="email" class="form-control mb-3" placeholder="E-mail:" required>
                     <div class="input-group mb-3">
                         <input type="password" name="password" id="password" class="form-control" placeholder="Senha:" required>
@@ -37,5 +42,8 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="/js/login.js"></script>
+
+<?php $this->start("scripts"); ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="/js/login.js"></script>
+<?php $this->stop(); ?>
