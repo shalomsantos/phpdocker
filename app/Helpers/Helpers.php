@@ -5,6 +5,22 @@ namespace App\Helpers;
 class Helpers
 {
     /**
+     * Formata uma data/hora para exibição no padrão brasileiro.
+     */
+    public static function datesFormater(?string $date, string $format = 'd/m/Y H:i'): string
+    {
+        if ($date === null || trim($date) === '') {
+            return '—';
+        }
+
+        try {
+            return (new \DateTimeImmutable($date))->format($format);
+        } catch (\Exception) {
+            return '—';
+        }
+    }
+
+    /**
      * Função global para responder um json com resposta HTTP adequada
      * @param int $statusCode
      * @param array $data

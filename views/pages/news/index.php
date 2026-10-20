@@ -2,14 +2,20 @@
     ['title' => $title
 ]); ?>
 
-<main class="container py-4">
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-        <div>
-            <h1 class="h3 mb-1">Notícias</h1>
-            <p class="text-body-secondary mb-0">Gerencie os rascunhos e as publicações.</p>
+<main class="container-fluid px-3 py-2">
+    <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
+        <div class="d-flex align-items-center gap-2">
+            <a class="btn btn-primary btn-sm" href="/news/create">Nova notícia</a>
+            <a class="btn btn-primary btn-sm" href="#">Opção A</a>
+            <a class="btn btn-primary btn-sm" href="#">Opção B</a>
+            <a class="btn btn-primary btn-sm" href="#">Opção C</a>
         </div>
-        <a class="btn btn-primary" href="/news/create">Nova notícia</a>
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-primary btn-sm"><i class="fa-solid fa-angle-left"></i></button>
+            <button class="btn btn-primary btn-sm"><i class="fa-solid fa-angle-right"></i></button>
+        </div>
     </div>
+    <hr class="my-1">
 
     <?php if (empty($news)): ?>
         <div class="alert alert-info" role="status">
@@ -17,37 +23,38 @@
         </div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
+            <table class="table table-striped table-hover table-sm align-middle">
                 <thead>
                     <tr>
-                        <th scope="col">Título</th>
                         <th scope="col">Status</th>
+                        <th scope="col"><span class="visually-hidden">Ações</span></th>
+                        <th scope="col">Título</th>
                         <th scope="col">Criada em</th>
                         <th scope="col">Publicada em</th>
-                        <th scope="col"><span class="visually-hidden">Ações</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($news as $article): ?>
                         <tr>
-                            <th scope="row"><?= $this->e($article['title'] ?? '') ?></th>
                             <td>
                                 <?php if (($article['status'] ?? '') === 'published'): ?>
-                                    <span class="badge text-bg-success">Publicada</span>
+                                    <span class="badge text-bg-success"><i class="fa-solid fa-check-double"></i></span>
                                 <?php else: ?>
-                                    <span class="badge text-bg-secondary">Rascunho</span>
+                                    <span class="badge text-bg-secondary"><i class="fa-solid fa-brush"></i></span>
                                 <?php endif; ?>
                             </td>
-                            <td><?= $this->e($article['created_at'] ?? '') ?></td>
-                            <td><?= $this->e($article['published_at'] ?? '—') ?></td>
-                            <td class="text-end">
+                            <td>
                                 <a
                                     class="btn btn-sm btn-outline-primary"
                                     href="/news/show?id=<?= rawurlencode((string) ($article['id'] ?? '')) ?>"
                                 >
-                                    Visualizar
+                                    <i class="fa-solid fa-magnifying-glass"></i>
                                 </a>
                             </td>
+                            <td scope="row"><?= $this->e($article['title'] ?? '') ?></td>
+                            <td class="fw-lighter"><?= $this->e(\App\Helpers\Helpers::datesFormater($article['created_at'] ?? null)) ?></td>
+                            <td class="fw-lighter"><?= $this->e(\App\Helpers\Helpers::datesFormater($article['published_at'] ?? null)) ?></td>
+                            
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

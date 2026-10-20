@@ -27,7 +27,7 @@
     justify-content: space-between;
     gap: 1rem;
     min-height: 3rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0 0.75rem;
     background: var(--bs-tertiary-bg, #f8f9fa);
     border-bottom: 1px solid var(--bs-border-color, #dee2e6);
     cursor: grab;
@@ -40,6 +40,9 @@
 }
 
 .app-window__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     overflow: hidden;
     margin: 0;
     font-size: 1rem;

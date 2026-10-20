@@ -166,47 +166,86 @@
         focusWindow(windowElement);
 
         const titleId = `app-window-title-${nextWindowTitleId++}`;
+
         windowElement.setAttribute('aria-labelledby', titleId);
 
         const header = document.createElement('header');
+
         header.className = 'app-window__header';
         makeDraggable(windowElement, header);
 
         const title = document.createElement('h2');
+
         title.className = 'app-window__title';
         title.id = titleId;
-        title.textContent = options.title || 'Janela';
+
+        const iconClasses = String(options.icon || '')
+            .trim()
+            .split(/\s+/)
+            .filter((className) => /^fa-[a-z0-9-]+$/i.test(className));
+
+        if (iconClasses.length > 0) {
+            const icon = document.createElement('i');
+            icon.classList.add(...iconClasses);
+            icon.setAttribute('aria-hidden', 'true');
+            title.append(icon);
+        }
+
+        const titleText = document.createElement('span');
+        titleText.textContent = options.title || 'Janela';
+        title.append(titleText);
 
         const controls = document.createElement('div');
+
         controls.className = 'app-window__controls';
 
+        // MAXIMIZE_ESTRUCTURE
         const maximizeButton = document.createElement('button');
+
         maximizeButton.className = 'app-window__control';
         maximizeButton.type = 'button';
         maximizeButton.setAttribute('aria-label', 'Maximizar janela');
         maximizeButton.setAttribute('aria-pressed', 'false');
         maximizeButton.textContent = '□';
+
         maximizeButton.addEventListener('click', () => {
             maximizeWindow(windowElement, maximizeButton);
         });
+        // MAXIMIZE_ESTRUCTURE
 
+        // CLOSEBUTTON_ESTRUCTURE
         const closeButton = document.createElement('button');
+
         closeButton.className = 'app-window__control app-window__control--close';
         closeButton.type = 'button';
         closeButton.setAttribute('aria-label', 'Fechar janela');
         closeButton.textContent = '×';
+
         closeButton.addEventListener('click', () => closeWindow(id));
+        // CLOSEBUTTON_ESTRUCTURE
 
         controls.append(maximizeButton, closeButton);
         header.append(title, controls);
 
         const frame = document.createElement('iframe');
+        
         frame.className = 'app-window__frame';
         frame.src = url.href;
         frame.title = options.title || 'Conteúdo da janela';
 
         windowElement.append(header, frame);
         document.body.append(windowElement);
+
+        if (options.position === 'top-center') {
+            const bounds = windowElement.getBoundingClientRect();
+            const topOffset = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+
+            windowElement.style.left = `${Math.max(0, (window.innerWidth - bounds.width) / 2)}px`;
+            windowElement.style.top = `${topOffset}px`;
+            windowElement.style.right = 'auto';
+            windowElement.style.bottom = 'auto';
+        }
+
         windows.set(id, windowElement);
         makeResizable(windowElement);
 
@@ -229,6 +268,8 @@
             open({
                 id: trigger.dataset.windowId,
                 title: trigger.dataset.windowTitle,
+                icon: trigger.dataset.windowIcon,
+                position: trigger.dataset.windowPosition,
                 url: trigger.dataset.windowUrl || trigger.href,
                 width: trigger.dataset.windowWidth,
                 height: trigger.dataset.windowHeight,

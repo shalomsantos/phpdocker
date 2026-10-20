@@ -10,7 +10,7 @@
 <main class="form-signin w-100 m-auto">
     <form id="formLogin">
         <div class="logo-login mb-3">
-            <img src="/favicon/OPOVO.png" alt="logo-opovo" style="max-width: 100%;"/>
+            <img src="/favicon/OPOVO.png" alt="logo-opovo" style="max-width: 65%;"/>
             <h6>CMS</h6>
         </div>
         <div class="form-floating">

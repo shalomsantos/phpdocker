@@ -2,15 +2,12 @@
 html, body{
   font-family: "Nunito", sans-serif !important;
 }
-:root {
+/* :root {
     --bs-primary: #6f42c1;
     --bs-primary-rgb: 111, 66, 193;
 
     --bs-secondary: #c5b3e6;
     --bs-secondary-rgb: 197, 179, 230;
-
-    --bs-success: #2c1a4d;
-    --bs-success-rgb: 44, 26, 77;
 }
 
 .btn-primary {
@@ -54,4 +51,4 @@ html, body{
 
 .nav-link.active {
     color: var(--bs-primary);
-}
+} */

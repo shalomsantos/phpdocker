@@ -26,7 +26,9 @@
                 data-window-id="news"
                 data-window-title="Matérias"
                 data-window-url="/news"
+                data-window-position="top-center"
                 aria-haspopup="dialog"
+                data-window-icon="fa-solid fa-newspaper"
             >
                 <i class="fa-solid fa-newspaper me-2"></i>
                 Materias
