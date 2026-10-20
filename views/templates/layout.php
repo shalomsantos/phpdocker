@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/window-manager.css">
     <!-- FAVICON -->
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon" />
     <?= $this->section("styles") ?>
@@ -21,6 +22,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript" src="/js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/interactjs@1.10.28/dist/interact.min.js"></script>
+  <script src="/js/window-manager.js"></script>
   <?= $this->section("scripts") ?>
 </body>
 

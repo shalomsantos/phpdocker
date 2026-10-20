@@ -34,10 +34,14 @@ $routes = [
         "/home"             => fn() => load("HomeController", "index"),
         "/abstract-factory" => fn() => load("LoginController", "validationExam"),
         "/logout"           => fn() => load("LoginController", "logout"),
-        "/users"            => fn() => load("UserController", "index")
+        "/users"            => fn() => load("UserController", "index"),
+        "/news"              => fn() => load("NewsController", "index"),
+        "/news/create"       => fn() => load("NewsController", "create"),
+        "/news/show"         => fn() => load("NewsController", "show"),
     ],
     "POST" => [
-        "/login"            => fn() => load("LoginController", "login"),
-        "/user"             => fn() => load("UserController", "store")
+        "/news/store" => fn() => load("NewsController", "store"),
+        "/login"      => fn() => load("LoginController", "login"),
+        "/user"       => fn() => load("UserController", "store"),
     ],
 ];

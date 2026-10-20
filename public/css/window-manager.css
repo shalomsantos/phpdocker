@@ -1,0 +1,197 @@
+.app-window {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1081;
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    min-height: 240px;
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+    box-sizing: border-box;
+    overflow: hidden;
+    resize: none;
+    pointer-events: auto;
+    color: var(--bs-body-color, #212529);
+    background: var(--bs-body-bg, #fff);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
+}
+
+.app-window__header {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bs-tertiary-bg, #f8f9fa);
+    border-bottom: 1px solid var(--bs-border-color, #dee2e6);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+.app-window__header:active {
+    cursor: grabbing;
+}
+
+.app-window__title {
+    overflow: hidden;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.app-window__controls {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 0.25rem;
+}
+
+.app-window__control {
+    display: inline-grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 0.25rem;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.app-window__control:hover,
+.app-window__control:focus-visible {
+    background: rgba(127, 127, 127, 0.18);
+}
+
+.app-window__control--close:hover {
+    color: #fff;
+    background: #dc3545;
+}
+
+.app-window__frame {
+    display: block;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    border: 0;
+    background: #fff;
+}
+
+.app-window__resize {
+    position: absolute;
+    z-index: 2;
+    touch-action: none;
+    user-select: none;
+}
+
+.app-window__resize--top,
+.app-window__resize--bottom {
+    right: 8px;
+    left: 8px;
+    height: 8px;
+    cursor: row-resize;
+}
+
+.app-window__resize--top {
+    top: 0;
+}
+
+.app-window__resize--bottom {
+    bottom: 0;
+}
+
+.app-window__resize--left,
+.app-window__resize--right {
+    top: 8px;
+    bottom: 8px;
+    width: 8px;
+    cursor: col-resize;
+}
+
+.app-window__resize--left {
+    left: 0;
+}
+
+.app-window__resize--right {
+    right: 0;
+}
+
+.app-window__resize--top.app-window__resize--left,
+.app-window__resize--bottom.app-window__resize--right {
+    z-index: 3;
+    width: 12px;
+    height: 12px;
+    cursor: nwse-resize;
+}
+
+.app-window__resize--top.app-window__resize--left {
+    top: 0;
+    left: 0;
+    right: auto;
+    bottom: auto;
+}
+
+.app-window__resize--bottom.app-window__resize--right {
+    right: 0;
+    bottom: 0;
+    top: auto;
+    left: auto;
+}
+
+.app-window__resize--top.app-window__resize--right,
+.app-window__resize--bottom.app-window__resize--left {
+    z-index: 3;
+    width: 12px;
+    height: 12px;
+    cursor: nesw-resize;
+}
+
+.app-window__resize--top.app-window__resize--right {
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: auto;
+}
+
+.app-window__resize--bottom.app-window__resize--left {
+    bottom: 0;
+    left: 0;
+    top: auto;
+    right: auto;
+}
+
+.app-window--maximized .app-window__resize {
+    display: none;
+}
+
+.app-window--maximized {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+    resize: none;
+    border-radius: 0;
+}
+
+@media (max-width: 575.98px) {
+    .app-window {
+        right: 0.5rem;
+        bottom: 0.5rem;
+        min-width: min(280px, calc(100vw - 1rem));
+        max-width: calc(100vw - 1rem);
+        max-height: calc(100vh - 1rem);
+    }
+}

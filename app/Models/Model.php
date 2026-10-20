@@ -8,22 +8,22 @@ use PDO;
 
 abstract class Model
 {
-    protected PDO $pdo;
     protected string $table;
-
-    public function __construct(?PDO $pdo = null)
-    {
-        $this->pdo = $pdo ?? Database::getConnection();
-    }
 
     public static function getDb(): PDO
     {
-        return (new static())->pdo;
+        return Database::getConnection();
     }
 
     public static function getTable(): string
     {
-        return (new static())->table;
+        $table = (new static())->table;
+
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $table)) {
+            throw new InvalidArgumentException('Nome de tabela inválido.');
+        }
+
+        return $table;
     }
 
     public static function all(): array
@@ -60,7 +60,10 @@ abstract class Model
         $columns = array_keys($data);
 
         foreach ($columns as $column) {
-            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $column)) {
+            if (
+                !preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $column)
+                || $column === 'id'
+            ) {
                 throw new InvalidArgumentException('Nome de coluna inválido.');
             }
         }
@@ -91,7 +94,7 @@ abstract class Model
         foreach (array_keys($data) as $column) {
             if (
                 !preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $column)
-                || $column === 'id'
+                || in_array($column, ['id', '_id'], true)
             ) {
                 throw new InvalidArgumentException('Nome de coluna inválido.');
             }
@@ -108,7 +111,7 @@ abstract class Model
 
         $stmt->execute([...$data, '_id' => $id]);
 
-        return $stmt->rowCount() > 0;
+        return $stmt->rowCount() > 0 || static::exists($id);
     }
 
     public static function delete(int|string $id): bool

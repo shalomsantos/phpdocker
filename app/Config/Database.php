@@ -24,12 +24,7 @@ class Database {
                 self::$pdoInstance = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $user, $password);
                 self::$pdoInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                header('Content-Type: application/json');
-                return json_encode([
-                    'status' => 'error',
-                    'message' => 'Erro ao conectar: ' . $e->getMessage()
-                ]);
-                exit;
+                throw $e;
             }
         }
         return self::$pdoInstance;

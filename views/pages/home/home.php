@@ -18,9 +18,18 @@
         <hr>
 
         <nav class="nav nav-pills flex-column gap-1 mb-auto">
-            <a href="#" class="nav-link text-white" >
-                <i class="fa-solid fa-house me-2"></i>
-                Workspace
+            <a
+                href="/news"
+                class="nav-link text-white"
+                id="materias"
+                data-window-open
+                data-window-id="news"
+                data-window-title="Matérias"
+                data-window-url="/news"
+                aria-haspopup="dialog"
+            >
+                <i class="fa-solid fa-newspaper me-2"></i>
+                Materias
             </a>
 
             <a href="#user-list" class="nav-link active text-white" aria-current="page">
