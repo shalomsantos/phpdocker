@@ -2,7 +2,7 @@
 /** @var array $positions */
 ?>
 
-<?php $this->layout("templates/layout-admin", [
+<?php $this->layout("templates/layout", [
     "title" => "Workspace"
 ]); ?>
 

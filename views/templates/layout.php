@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon" />
     <?= $this->section("styles") ?>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <title><?= $this->e('PHP') . (!empty($title) ? ' - ' . $title : '') ?></title>
+    <title><?= $this->e($_ENV['PROJECT_NAME']) . (!empty($title) ? ' - ' . $title : '') ?></title>
 </head>
 <body>
   <?= $this->section("content") ?>

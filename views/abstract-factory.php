@@ -1,4 +1,4 @@
-<?php $this->layout("templates/layout-admin"); ?>
+<?php $this->layout("templates/layout"); ?>
 
 <main>
     <?php \App\Dto\renderizarPainel(new \App\Dto\FabricaBootstrap()); ?>

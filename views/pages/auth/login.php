@@ -1,4 +1,4 @@
-<?php $this->layout("templates/layout-login", [
+<?php $this->layout("templates/login", [
     "title" => "Login"
 ]); ?>
 
@@ -9,6 +9,10 @@
 
 <main class="form-signin w-100 m-auto">
     <form id="formLogin">
+        <div class="logo-login mb-3">
+            <img src="/favicon/OPOVO.png" alt="logo-opovo" style="max-width: 100%;"/>
+            <h6>CMS</h6>
+        </div>
         <div class="form-floating">
             <input type="email" class="form-control form-control-sm" name="email" id="email" placeholder="name@example.com">
             <label for="floatingInput">Email</label>
