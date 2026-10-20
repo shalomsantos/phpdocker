@@ -25,7 +25,8 @@ class LoginController extends Controller
     {
         // $usuario = $this->userService->findByEmail('shalomsantos@gmail.com');
         // var_dump($usuario);
-        echo $request->categoria;
+        // echo $request->categoria;
+        $this->view("pages/teste");
     }
 
     function validationExam()

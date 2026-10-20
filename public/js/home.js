@@ -110,23 +110,22 @@ function editUser(id) {
         }
     });
 }
-// interações indiretas
 $(document).ready(function () {
-    //buttons
+    //BUTTONS
     const btnSubmit = $("#submit");
     const btnLimpar = $("#limpar");
     const btnReload = $("#reload");
-    //inputs
-    const inputName = $("#name");
-    const inputEmail = $("#email");
-    const inputTel = $("#tel");
-    const inputPassword = $("#password");
+    //INPUTS
+    const inputName            = $("#name");
+    const inputEmail           = $("#email");
+    const inputTel             = $("#tel");
+    const inputPassword        = $("#password");
     const inputConfirmPassword = $("#confirmPassword");
-    // listagem
-    const row = $("#user-list");
-    //modals
-    const modalAddUserSpinner = $("#modalAddUserSpinner");
-    const modalAddUser = $("#modalAddUser");
+    //LISTAGEM
+    const tbody                  = $("#user-list");
+    //MODALS
+    const modalAddUserSpinner  = $("#modalAddUserSpinner");
+    const modalAddUser         = $("#modalAddUser");
 
     btnLimpar.on("click", function () {
         inputName.val("");
@@ -191,55 +190,38 @@ $(document).ready(function () {
             url: "/users",
             dataType: "json",
             success: function (data) {
-                row.empty();
-                shoCardsUsers(data.data);
+                tbody.empty();
+                mountUsersTable(data.data);
             }, error: function (err) {
                 console.log(err)
             }
         });
     }
-    function shoCardsUsers(users) {
+    function mountUsersTable(users) {
+        const positions = window.positions;
+
         if (users.length > 0) {
-            users.forEach(function (user, index) {
+            users.forEach(function (user) {
+                const position = positions.find(function (position) {
+                    return Number(position.id) === Number(user.position_id);
+                });
                 const col = `
-                            <div class="col-4 m-0 p-0">
-                                <div class="card m-2">
-                                    <div class="card-header d-flex align-items-center justify-content-between">
-                                        <p>${user.nome}</p>
-                                        <button class="btn btn-light btn-sm btn-${index}" onclick="onVisible(${index})"><i class="fa-solid fa-eye"></i></button>
-                                    </div>
-                                    <div class="card-body d-flex flex-column gap-2">
-                                        <div class="label-content">
-                                            <p>E-mail:.</p>
-                                            <p class="text-body-secondary">${user.email}</p>
-                                        </div>
-                                        <div class="label-content">
-                                            <p>Telefone:.</p>
-                                            <p class="text-body-secondary">${user.telefone}</p>
-                                        </div>
-                                        <div class="label-content">
-                                            <p>Senha:.</p>
-                                            <span class="span-senha-${index} d-flex align-items-center">
-                                                <p class="text-body-secondary senha-show d-none mb-0">${user.senha}</p>
-                                                <i class="fa-solid fa-ellipsis senha-hide"></i>
-                                            </span>
-                                        </div>
-                                        <div class="label-content">
-                                            <p>Cargo:.</p>
-                                            <p class="text-body-secondary">${user.position_id}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                row.append(col);
+                    <tr>
+                        <td>${user.nome}</td>
+                        <td>${user.email}</td>
+                        <td>${user.telefone}</td>
+                        <td>${position ? position.description : 'Cargo não encontrado'}</td>
+                        <td>${user.senha}</td>
+                    </tr>  
+                `;
+                tbody.append(col);
             });
         } else {
-            row.append(`
-                        <div class="alert alert-danger" role="alert">
-                            Nenhum registro encontrado
-                        </div>
-                    `);
+            tbody.append(`
+                <div class="alert alert-danger" role="alert">
+                    Nenhum registro encontrado
+                </div>
+            `);
         }
     }
     function validateInputsConfirm() {
