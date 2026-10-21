@@ -1,0 +1,11 @@
+.text-truncate-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+}
+.main-content{
+    max-height: 100vh;
+    overflow-y: auto;
+}

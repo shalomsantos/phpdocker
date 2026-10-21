@@ -21,7 +21,7 @@
             <input type="password" class="form-control form-control-sm mb-0" name="password" id="password" placeholder="Password">
 
             <button class="input-group-text" id="eyeToggle" type="button">
-                <i class="fa-solid fa-eye"></i>
+                <i class="fa-solid fa-eye" style="color: #01AAE5;"></i>
             </button>
             <label for="floatingPassword">Senha</label>
         </div>

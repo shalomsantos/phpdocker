@@ -116,16 +116,16 @@ $(document).ready(function () {
     const btnLimpar = $("#limpar");
     const btnReload = $("#reload");
     //INPUTS
-    const inputName            = $("#name");
-    const inputEmail           = $("#email");
-    const inputTel             = $("#tel");
-    const inputPassword        = $("#password");
+    const inputName = $("#name");
+    const inputEmail = $("#email");
+    const inputTel = $("#tel");
+    const inputPassword = $("#password");
     const inputConfirmPassword = $("#confirmPassword");
     //LISTAGEM
-    const tbody                  = $("#user-list");
+    const tbody = $("#user-list");
     //MODALS
-    const modalAddUserSpinner  = $("#modalAddUserSpinner");
-    const modalAddUser         = $("#modalAddUser");
+    const modalAddUserSpinner = $("#modalAddUserSpinner");
+    const modalAddUser = $("#modalAddUser");
 
     btnLimpar.on("click", function () {
         inputName.val("");
@@ -181,7 +181,7 @@ $(document).ready(function () {
             });
         }
     });
-    btnReload.on('click', () =>{
+    btnReload.on('click', () => {
         fetchUsers();
     });
     function fetchUsers() {
@@ -255,4 +255,35 @@ $(document).ready(function () {
         }
         return true;
     }
+});
+
+const searchInput    = document.getElementById('searchTitle');
+const cardsContainer = document.getElementById('cardsContainer');
+const noResults      = document.getElementById('noResults');
+
+searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value
+        .trim()
+        .toLocaleLowerCase('pt-BR');
+
+    const cards = cardsContainer.querySelectorAll('.col');
+    let visibleCards = 0;
+
+    cards.forEach(card => {
+        const title = card
+            .querySelector('.card-title')
+            ?.textContent
+            .trim()
+            .toLocaleLowerCase('pt-BR') ?? '';
+
+        const matches = title.includes(searchTerm);
+
+        card.classList.toggle('d-none', !matches);
+
+        if (matches) {
+            visibleCards++;
+        }
+    });
+
+    noResults.classList.toggle('d-none', visibleCards > 0);
 });
