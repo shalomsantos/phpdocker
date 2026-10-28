@@ -90,6 +90,25 @@
     background: #fff;
 }
 
+.app-window__loader {
+    position: absolute;
+    z-index: 1;
+    inset: 3rem 0 0;
+    display: grid;
+    place-items: center;
+    background: var(--bs-body-bg, #fff);
+}
+
+.app-window__loader--hidden {
+    display: none;
+}
+
+.app-window__loader .spinner-grow {
+    width: 3rem;
+    height: 3rem;
+    color: #01AAE5;
+}
+
 .app-window__resize {
     position: absolute;
     z-index: 2;

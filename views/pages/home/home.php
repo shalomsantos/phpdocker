@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/home.css">
 <?php $this->stop(); ?>
 
-<div class="d-flex overflow-hidden min-vh-100" style="background-color: var(--bs-secondary-bg);">
+<div class="d-flex overflow-hidden min-vh-100 bg-tertiary">
     <aside class="offcanvas-md offcanvas-start d-flex flex-column flex-shrink-0 p-3 text-bg-dark" tabindex="-1" id="sidebarMira" aria-labelledby="sidebarMiraLabel" style="width: 260px;">
         <a href="/" class="d-flex align-items-center text-white text-decoration-none" id="sidebarMiraLabel">
             <span class="fs-4 fw-semibold">Mira</span>
@@ -54,7 +54,7 @@
         </nav>
         <div class="d-flex align-items-center gap-2">
             <div
-                class="rounded-circle bg-secondary d-flex align-items-center justify-content-center flex-shrink-0"
+                class="rounded-circle bg-secondary d-flex align-items-center justify-content-center flex-shrink-0 text-primary"
                 style="width: 42px; height: 42px;"
                 title="<?= $this->e($user['nome']); ?>">
                 <?= $this->e($user['iniciais']) ?>
@@ -871,60 +871,6 @@
                 </article>
             </div>
         </div>
-        <!-- <button class="btn btn-dark d-md-none mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMira" aria-controls="sidebarMira" aria-label="Abrir menu">
-            <i class="fa-solid fa-bars"></i>
-            Menu
-        </button>
-        <div class="row">
-            <div class="col-12 col-md-4 col-lg-3">
-                <label for="position" class="form-label">
-                    Selecione o cargo:
-                </label>
-
-                <select name="position_id" id="position" class="form-select">
-                    <option value="">Selecione...</option>
-                    <?php foreach ($positions as $pos): ?>
-                        <option value="<?= $this->e((string) $pos['id']) ?>">
-                            <?= $this->e($pos['description']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div class="col-auto mt-auto">
-                <button id="reload" class="btn btn-primary" type="button" aria-label="Atualizar">
-                    <i class="fa-solid fa-arrow-rotate-right"></i>
-                </button>
-            </div>
-        </div>
-        <table class="table table-striped table-hover table-sm my-3">
-            <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Telefone</th>
-                    <th scope="col">Cargo</th>
-                    <th scope="col">Senha</th>
-                </tr>
-            </thead>
-            <tbody id="user-list">
-                <?php foreach ($users as $key => $value): ?>
-                    <tr>
-                        <td><?= $value['nome']; ?></td>
-                        <td><?= $value['email']; ?></td>
-                        <td><?= $value['telefone']; ?></td>
-                        <?php
-                        $positionIndex = array_search(
-                            $value['position_id'] ?? null,
-                            array_column($positions, 'id')
-                        );
-                        ?>
-                        <td> <?= $this->e($positionIndex !== false ? $positions[$positionIndex]['description'] : 'Não definido'); ?></td>
-                        <td><?= $value['senha']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table> -->
     </main>
 </div>
 

@@ -27,7 +27,9 @@
             'aria-label',
             isMaximized ? 'Restaurar janela' : 'Maximizar janela'
         );
-        maximizeButton.textContent = isMaximized ? '❐' : '□';
+        const icon = maximizeButton.querySelector('i');
+        icon.classList.toggle('fa-window-restore', isMaximized);
+        icon.classList.toggle('fa-window-maximize', !isMaximized);
     }
 
     function makeDraggable(windowElement, header) {
@@ -142,13 +144,12 @@
     }
 
     function open(options) {
-        const id = String(options.id || 'window');
+        const id  = String(options.id || 'window');
         const url = new URL(options.url || '/', window.location.origin);
 
-        if (url.origin !== window.location.origin) {
+        if (url.origin !== window.location.origin)
             throw new TypeError('A janela aceita somente páginas da mesma origem.');
-        }
-
+        
         const existingWindow = windows.get(id);
 
         if (existingWindow) {
@@ -157,6 +158,7 @@
         }
 
         const windowElement = document.createElement('section');
+
         windowElement.className = 'app-window';
         windowElement.setAttribute('role', 'dialog');
         windowElement.setAttribute('aria-modal', 'false');
@@ -202,11 +204,14 @@
         // MAXIMIZE_ESTRUCTURE
         const maximizeButton = document.createElement('button');
 
-        maximizeButton.className = 'app-window__control';
+        maximizeButton.className = 'app-window__control btn btn-sm';
         maximizeButton.type = 'button';
         maximizeButton.setAttribute('aria-label', 'Maximizar janela');
         maximizeButton.setAttribute('aria-pressed', 'false');
-        maximizeButton.textContent = '□';
+        const maximizeIcon = document.createElement('i');
+        maximizeIcon.className = 'fa-solid fa-window-maximize';
+        maximizeIcon.setAttribute('aria-hidden', 'true');
+        maximizeButton.append(maximizeIcon);
 
         maximizeButton.addEventListener('click', () => {
             maximizeWindow(windowElement, maximizeButton);
@@ -216,10 +221,13 @@
         // CLOSEBUTTON_ESTRUCTURE
         const closeButton = document.createElement('button');
 
-        closeButton.className = 'app-window__control app-window__control--close';
+        closeButton.className = 'app-window__control btn btn-sm app-window__control--close';
         closeButton.type = 'button';
         closeButton.setAttribute('aria-label', 'Fechar janela');
-        closeButton.textContent = '×';
+        const closeIcon = document.createElement('i');
+        closeIcon.className = 'fa-solid fa-xmark';
+        closeIcon.setAttribute('aria-hidden', 'true');
+        closeButton.append(closeIcon);
 
         closeButton.addEventListener('click', () => closeWindow(id));
         // CLOSEBUTTON_ESTRUCTURE
@@ -228,12 +236,50 @@
         header.append(title, controls);
 
         const frame = document.createElement('iframe');
-        
+
         frame.className = 'app-window__frame';
         frame.src = url.href;
         frame.title = options.title || 'Conteúdo da janela';
 
-        windowElement.append(header, frame);
+        // LOADER_STRUCTURE
+        const loader = document.createElement('div');
+        loader.className = 'app-window__loader';
+        loader.setAttribute('role', 'status');
+        loader.innerHTML = `
+            <div class="spinner-grow" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+        `;
+        const hideLoader = () => {
+            loader.classList.add('app-window__loader--hidden');
+        };
+        // LOADER_STRUCTURE
+
+        // FRAME_LOAD_STRUCTURE
+        frame.addEventListener('load', () => {
+            hideLoader();
+
+            try {
+                const frameDocument = frame.contentDocument;
+                const pageTitle = frameDocument?.title?.trim();
+                if (!pageTitle) return;
+
+                // O layout usa "Projeto - Página"; mostrar apenas o nome da página na janela.
+                const visibleTitle = pageTitle.includes(' - ')
+                    ? pageTitle.slice(pageTitle.lastIndexOf(' - ') + 3).trim()
+                    : pageTitle;
+                if (!visibleTitle) return;
+
+                titleText.textContent = visibleTitle;
+                frame.title = visibleTitle;
+            } catch (error) {
+                // A janela só carrega páginas da mesma origem, mas mantém o título inicial
+                // caso o navegador não permita ler o documento por algum motivo.
+            }
+        });
+        // FRAME_LOAD_STRUCTURE
+
+        windowElement.append(header, loader, frame);
         document.body.append(windowElement);
 
         if (options.position === 'top-center') {

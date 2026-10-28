@@ -24,6 +24,7 @@
   <script type="text/javascript" src="/js/script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactjs@1.10.28/dist/interact.min.js"></script>
   <script src="/js/window-manager.js"></script>
+  <script src="/js/loadScreen.js"></script>
   <?= $this->section("scripts") ?>
 </body>
 

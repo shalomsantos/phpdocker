@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     image: phpdocker-app:8.5
-    restart: unless-stopped
     environment:
       DB_HOST: phpdocker_mysql
       DB_PORT: 3306

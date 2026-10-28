@@ -1,4 +1,17 @@
 
+const labelFile = document.getElementById("label-file");
+const inputFile = document.getElementById("input-file");
+const imgView = document.getElementById("img-view");
+
+inputFile.addEventListener("change", uploadImage)
+
+function uploadImage(){
+    let imgLink = URL.createObjectURL(inputFile.files[0]);
+    imgView.style.backgroundImage = `url(${imgLink})`;
+    imgView.textContent = "";
+    imgView.classList.remove("border-dashed", "border-primary");
+}
+
 tinymce.init({
     selector: '#content',
     language: 'pt-BR',

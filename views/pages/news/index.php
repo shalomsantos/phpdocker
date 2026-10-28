@@ -2,17 +2,17 @@
     ['title' => $title
 ]); ?>
 
-<main class="container-fluid px-3 py-2">
+<main class="container-fluid p-2">
     <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
         <div class="d-flex align-items-center gap-2">
-            <a class="btn btn-primary btn-sm" href="/news/create">Nova notícia</a>
-            <a class="btn btn-primary btn-sm" href="#">Opção A</a>
-            <a class="btn btn-primary btn-sm" href="#">Opção B</a>
-            <a class="btn btn-primary btn-sm" href="#">Opção C</a>
+            <a class="btn btn-primary btn-sm rounded-pill" href="/news/create">Nova notícia</a>
+            <a class="btn btn-secondary btn-sm rounded-pill" href="#">Opção A</a>
+            <a class="btn btn-secondary btn-sm rounded-pill" href="#">Opção B</a>
+            <a class="btn btn-secondary btn-sm rounded-pill" href="#">Opção C</a>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-primary btn-sm"><i class="fa-solid fa-angle-left"></i></button>
-            <button class="btn btn-primary btn-sm"><i class="fa-solid fa-angle-right"></i></button>
+            <button class="btn btn-primary btn-sm rounded-pill"><i class="fa-solid fa-angle-left"></i></button>
+            <button class="btn btn-primary btn-sm rounded-pill"><i class="fa-solid fa-angle-right"></i></button>
         </div>
     </div>
     <hr class="my-1">
@@ -26,11 +26,11 @@
             <table class="table table-striped table-hover table-sm align-middle">
                 <thead>
                     <tr>
-                        <th scope="col">Status</th>
-                        <th scope="col"><span class="visually-hidden">Ações</span></th>
-                        <th scope="col">Título</th>
-                        <th scope="col">Criada em</th>
-                        <th scope="col">Publicada em</th>
+                        <td scope="col" class="text-sm">Status</td>
+                        <td scope="col" class="text-sm"><span class="visually-hidden">Ações</span></td>
+                        <td scope="col" class="text-sm">Título</td>
+                        <td scope="col" class="text-sm">Criada em</td>
+                        <td scope="col" class="text-sm">Publicada em</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,9 +51,9 @@
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </a>
                             </td>
-                            <td scope="row"><?= $this->e($article['title'] ?? '') ?></td>
-                            <td class="fw-lighter"><?= $this->e(\App\Helpers\Helpers::datesFormater($article['created_at'] ?? null)) ?></td>
-                            <td class="fw-lighter"><?= $this->e(\App\Helpers\Helpers::datesFormater($article['published_at'] ?? null)) ?></td>
+                            <td scope="row" class="text-sm"><?= $this->e($article['title'] ?? '') ?></td>
+                            <td class="fw-lighter text-sm"><?= $this->e(\App\Helpers\Helpers::datesFormater($article['created_at'] ?? null)) ?></td>
+                            <td class="fw-lighter text-sm"><?= $this->e(\App\Helpers\Helpers::datesFormater($article['published_at'] ?? null)) ?></td>
                             
                         </tr>
                     <?php endforeach; ?>

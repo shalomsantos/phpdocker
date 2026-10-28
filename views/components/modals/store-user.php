@@ -8,13 +8,13 @@
             <span class="visually-hidden">Loading...</span>
         </div>
         <form id="modalAddUser" class="modal-content">
-            <div class="modal-header justify-content-between">
+            <div class="modal-header p-2 justify-content-between">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Adicionar usuário</h1>
-                <button class="btn btn-light rounded-circle" data-bs-dismiss="modal" aria-label="Close">
+                <button class="btn btn-light btn-sm" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-2">
                 <form id="storeUserForm">
                     <div class="row">
                         <div class="col-12">

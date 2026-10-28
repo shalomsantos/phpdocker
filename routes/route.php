@@ -35,9 +35,9 @@ $routes = [
         "/abstract-factory" => fn() => load("LoginController", "validationExam"),
         "/logout"           => fn() => load("LoginController", "logout"),
         "/users"            => fn() => load("UserController", "index"),
-        "/news"              => fn() => load("NewsController", "index"),
-        "/news/create"       => fn() => load("NewsController", "create"),
-        "/news/show"         => fn() => load("NewsController", "show"),
+        "/news"             => fn() => load("NewsController", "index"),
+        "/news/create"      => fn() => load("NewsController", "create"),
+        "/news/show"        => fn() => load("NewsController", "show"),
     ],
     "POST" => [
         "/news/store" => fn() => load("NewsController", "store"),
