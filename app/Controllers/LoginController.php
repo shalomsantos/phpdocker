@@ -7,7 +7,6 @@ use App\Helpers\Helpers;
 use App\Controllers\Controller;
 use App\Services\UserService;
 use \App\Services\JwtService;
-use App\Mapper\CmsUserMapper;
 use PDO;
 use PDOException;
 
@@ -21,32 +20,8 @@ class LoginController extends Controller
         $this->jwtService = $jwtService;
         $this->userService = $userService;
     }
-    function teste(object $request)
-    {
-        // $usuario = $this->userService->findByEmail('shalomsantos@gmail.com');
-        // var_dump($usuario);
-        // echo $request->categoria;
-        $this->view("pages/teste");
-    }
 
-    function validationExam()
-    {
-        require_once dirname(__DIR__, 1).'/Dto/AbstractFactory.php';
-
-        // $cms_values = [
-        //     'ds_first_nam' => 'fulano', 
-        //     'ds_last_name' => 'de tal'
-        // ];
-        
-        // $dto = CmsUserMapper::toDto($cms_values);
-
-        // echo $dto->primeironome;
-        // echo $dto->ultimonome;
-        // echo $dto->nome();
-        $this->view("abstract-factory");
-    }
-
-    function index()
+    function index(): void
     {
         if (isset($_COOKIE['auth_token'])) {
             $isValid = $this->jwtService->validateToken($_COOKIE['auth_token']);
@@ -60,7 +35,7 @@ class LoginController extends Controller
         $this->view("pages/auth/login", ['usuario_table' => $this->userService->getTable()]);
     }
 
-    function login()
+    function login(): void
     {
         try {
             $email    = $_POST['email'] ?? null;
@@ -81,13 +56,16 @@ class LoginController extends Controller
                         'samesite' => 'Lax',
                     ]);
 
-                    return Helpers::jsonResponse(200, ['success' => true, 'redirect' => '/home']);
+                    Helpers::jsonResponse(200, [
+                        'success' => true, 
+                        'redirect' => '/home'
+                    ]);
                 }
             }
 
-            return Helpers::jsonResponse(401, ['success' => false, 'message' => 'E-mail ou senha incorretos.']);
+            Helpers::jsonResponse(401, ['success' => false, 'message' => 'E-mail ou senha incorretos.']);
         } catch (\Throwable $e) {
-            return Helpers::jsonResponse(500, [
+            Helpers::jsonResponse(500, [
                 'success' => false,
                 'message' => 'Erro interno',
                 'details' => $e->getMessage()
@@ -95,7 +73,7 @@ class LoginController extends Controller
         }
     }
 
-    function auth()
+    function auth(): void
     {
         session_start();
 
@@ -144,7 +122,7 @@ class LoginController extends Controller
         }
     }
 
-    function logout()
+    function logout(): void
     {
         try {
             setcookie('auth_token', '', time() - 3600, '/');

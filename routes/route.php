@@ -29,15 +29,15 @@ function load(string $controller, string $action)
 
 $routes = [
     "GET" => [
-        "/"                 => fn() => load("LoginController", "index"),
-        "/teste"            => fn() => load("LoginController", "teste"),
-        "/home"             => fn() => load("HomeController", "index"),
-        "/abstract-factory" => fn() => load("LoginController", "validationExam"),
-        "/logout"           => fn() => load("LoginController", "logout"),
-        "/users"            => fn() => load("UserController", "index")
+        "/"                  => fn() => load("LoginController", "index"),
+        "/home"              => fn() => load("HomeController", "index"),
+        "/logout"            => fn() => load("LoginController", "logout"),
+        "/users"             => fn() => load("UserController", "index"),
+        "/abstract-factory"  => fn() => load("LoginController", "asd"), //simulando erro
     ],
     "POST" => [
-        "/login"            => fn() => load("LoginController", "login"),
-        "/user"             => fn() => load("UserController", "store")
+        "/login"             => fn() => load("LoginController", "login"),
+        "/user"              => fn() => load("UserController", "store"),
+        "/abstract-factory"  => fn() => load("UserController", "index"), //simulando erro
     ],
 ];

@@ -1,4 +1,4 @@
-<?php $this->layout("templates/layout-login", [
+<?php $this->layout("templates/login", [
     "title" => "Login"
 ]); ?>
 

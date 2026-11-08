@@ -18,7 +18,7 @@ class UserController extends AuthorizedController
         $this->userService = $userService;
     }
 
-    public function index()
+    public function index(): void
     {
         Helpers::jsonResponse(200, [
             'success' => true,
@@ -58,7 +58,7 @@ class UserController extends AuthorizedController
         }
     }
 
-    public function store()
+    public function store(): void
     {
         $pdoInstance = Database::getConnection();
 
@@ -94,7 +94,7 @@ class UserController extends AuthorizedController
         }
     }
 
-    public function destroy(string $id)
+    public function destroy(string $id): void
     {
         if (!isset($_POST['id'])) {
             Helpers::jsonResponse(400, [
